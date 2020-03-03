@@ -1,0 +1,121 @@
+﻿<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Herbario On-line</title>
+  <meta name="description" content="HTML5">
+  <meta name="author" content="M">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="swiper/css/swiper.min.css">
+  <!-- librerías -->
+  <script src="jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="swiper/js/swiper.min.js"></script>
+
+  <script src="scripts.js"></script>
+
+</head>
+
+<body>
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-md bg-success navbar-dark ">
+      <a class="navbar-brand" href="#">Herbario On-Line</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".menuCompasable">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center menuCompasable">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-home fa-fw"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fab fa-pagelines fa-fw"></i>Colección</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-leaf fa-fw"></i>Gestión de Plantas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-users fa-fw"></i>Gestión de Usuarios</a>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end menuCompasable">
+        <ul class="nav navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-paw fa-fw"></i> Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-paw fa-fw"></i> Login</a></li>
+        </ul>
+      </div>
+      <span class="navbar-text">
+        Texto que queda dentro bonito
+      </span>
+    </nav>
+  </header>
+  <main>
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-md-6 text-justify">
+          <h1 id="encabezadoMain">Herbario On-line</h1>
+          <h2>¿Qué es un Herbario?</h2>
+          <p>
+            Un herbario es una colección de plantas o partes de plantas debidamente identificadas, y que contiene
+            información sobre las mismas, como la identidad del recolector, fecha y lugar de recolección, hábitat,
+            nombre
+            común, o usos de la planta.<br>
+
+            Estas colecciones pueden representar la flora mundial, de un país, de una región, o incluso de una
+            localidad.
+            Además, pueden representar un grupo específico, como por ejemplo, plantas medicinales, plantas cultivadas,
+            plantas acuáticas, plantas que crecen en condiciones estremas de temperatura, o una familia específica. <br>
+            Tradicionalmente, las plantas se prensaban, secaban y conservaban en pliegos de papel. Para este proyecto se
+            utilizan imágenes de las plantas tomadas <span>in situ</span>.
+          </p>
+
+          <h2>¿Qué voy a encontrar en este Herbario Virtual</h2>
+          <p>El Herbario Virtual se ha estructurado en fichas, o páginas propias para cada especie vegetal tratada. El
+            motivo principal de cada ficha son las imágenes de las plantas, pero también una breve información en forma
+            de
+            texto
+            sobre la misma, a demás de sus nombres científicos, catalanes y castellanos.
+            En este hebario podrás encontrar plantas vasculares encontradas en Crevillent, Alicante.
+            Este Herbario Virtual es un proyecto vivo, como cualquier banco de datos su valor se encuentra en una
+            constante
+            incorporación de nuevas imágenes y nueva información.</p>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+          <picture><img src="img/lino_portada.jpg" alt="" class="img-fluid border border-success rounded"></picture>
+        </div>
+      </div> <!-- fin row -->
+      <div class="row" id="deg">
+        <div class="swiper-container col-12 py-5">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image:url(./img/slider1.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider2.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider3.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider4.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider5.jpg)"></div>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div> <!-- fin row -->
+    </div> <!-- fin container -->
+  </main>
+  <footer>
+    <div class="container-fluid bg-success p-3 mt-3">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+        <img alt="Licencia de Creative Commons" style="border-width:0"
+          src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+      </a>
+    </div>
+  </footer>
+</body>
+
+</html>
