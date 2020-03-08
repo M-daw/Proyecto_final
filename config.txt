@@ -1,0 +1,4 @@
+servidor:localhost
+usuario:root
+pass:
+tabla:herbariodb

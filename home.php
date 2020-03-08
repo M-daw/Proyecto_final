@@ -36,6 +36,7 @@
             <picture><img src="img/lino_portada.jpg" alt="" class="img-fluid border border-success rounded"></picture>
         </div>
     </div> <!-- fin row -->
+</div> <!-- fin container -->
     <div class="row" id="deg">
         <div class="swiper-container col-12 py-5">
             <div class="swiper-wrapper">
@@ -49,4 +50,3 @@
             <div class="swiper-pagination"></div>
         </div>
     </div> <!-- fin row -->
-</div> <!-- fin container -->
