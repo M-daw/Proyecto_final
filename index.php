@@ -32,9 +32,21 @@ require("header.php");
             $actual = "ALTA USUARIOS";
             $pagina = "altausuarios.php";
         }
+        if ($opcion == "ap") {
+            $actual = "ALTA PLANTAS";
+            $pagina = "altaplantas.php";
+        }
         if ($opcion == "mu") {
             $actual = "MODIFICACIÓN USUARIOS";
             $pagina = "modifusuarios.php";
+        }
+        if ($opcion == "mp") {
+            $actual = "MODIFICACIÓN PLANTAS";
+            $pagina = "modifplantas.php";
+        }
+        if ($opcion == "fp") {
+            $actual = "FICHA PLANTA";
+            $pagina = "fichaplanta.php";
         }
 
 
@@ -48,17 +60,19 @@ require("header.php");
         //se imprimen errores y mensajes, si los hay, después de cargar la página
         ?>
 
-        <div class="container text-success bg-light" id="mensajes-y-errores">
+        <div class="container" id="mensajes-y-errores">
             <div class="row">
                 <?php
-                if ($msg != "")
-                    echo $msg . "<br>";
-                if ($error != "")
+                if ($msg != "") {
+                    echo "<div class=\"alert alert-warning\">";
+                    echo $msg;
+                    echo "</div>";
+                }
+                if ($error != "") {
+                    echo "<div class=\"alert alert-danger\">";
                     echo $error;
-
-
-                //echo $opcion;
-                //echo $pagina;
+                    echo "</div>";
+                }
                 ?>
             </div>
         </div>

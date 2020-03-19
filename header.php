@@ -2,7 +2,8 @@
 
 require("clases/db_abstract_model.php");
 require("clases/usuarios_model.php");
-
+require("clases/plantas_model.php");
+require("lib/functions.php");
 ?>
 
 <!doctype html>
@@ -40,16 +41,28 @@ require("clases/usuarios_model.php");
             <div class="collapse navbar-collapse justify-content-center menuCompasable">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?p=ini"><i class="fas fa-home fa-fw"></i>Home</a>
+                        <a class="nav-link <?php
+                                if (!isset($_GET['p']) || $_GET['p'] == "ini") {
+                                    echo 'active';
+                                } ?>" href="index.php?p=ini"><i class="fas fa-home fa-fw"></i>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?p=col"><i class="fab fa-pagelines fa-fw"></i>Colección</a>
+                        <a class="nav-link <?php
+                                if (isset($_GET['p']) && $_GET['p'] == "col") {
+                                    echo 'active';
+                                } ?>" href="index.php?p=col"><i class="fab fa-pagelines fa-fw"></i>Colección</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?p=gp"><i class="fas fa-leaf fa-fw"></i>Gestión de Plantas</a>
+                        <a class="nav-link <?php
+                                if (isset($_GET['p']) && $_GET['p'] == "gp") {
+                                    echo 'active';
+                                } ?>" href="index.php?p=gp"><i class="fas fa-leaf fa-fw"></i>Gestión de Plantas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?p=gu"><i class="fas fa-users fa-fw"></i>Gestión de Usuarios</a>
+                        <a class="nav-link <?php
+                                if (isset($_GET['p']) && $_GET['p'] == "gu") {
+                                    echo 'active';
+                                } ?>" href="index.php?p=gu"><i class="fas fa-users fa-fw"></i>Gestión de Usuarios</a>
                     </li>
                 </ul>
             </div>

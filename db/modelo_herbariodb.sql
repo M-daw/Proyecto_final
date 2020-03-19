@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2020 a las 17:38:45
+-- Tiempo de generación: 08-03-2020 a las 20:16:15
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.3
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `herbariodb`
+-- Base de datos: `copia`
 --
 
 -- --------------------------------------------------------
@@ -55,10 +55,10 @@ CREATE TABLE `plantas` (
   `distribucion` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
   `cat_UICN` enum('LC','NT','VU','EN','CR','EW','EX') COLLATE latin1_spanish_ci NOT NULL,
   `floracion` text COLLATE latin1_spanish_ci NOT NULL,
-  `foto-general` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto-flor` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto-hoja` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto-fruto` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `foto_general` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_flor` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_hoja` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_fruto` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
   `galeria` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;

@@ -15,35 +15,53 @@ if (isset($_POST['altaUser'])) {
 }
 
 ?>
+<div class="container my-5">
+    <div class="row ">
+        <div class="card d-none d-lg-block col-lg-3 bg-light">
+            <div class="card-body">
+            <h5 class="card-title text-center text-success">Datos del nuevo usuario</h5>
+            </div>
+            <img class="card-img-bottom" src="img/lateral_formulario.png" alt="formulario">
+        </div>
+        <div class="card card-body col-lg-9 col-xl-8">
+            <form action="index.php?p=au" method="POST" enctype="multipart/form-data" name="formAltaUsuario" class="pt-5">
 
-<form action="index.php?p=au" method="POST" enctype="multipart/form-data" name="formAltaUsuario">
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Nombre:</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control rounded-pill" name="nombre_usuario" maxlength="30">
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <label class="col-md-2 col-form-label">E-mail:</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control rounded-pill" name="email_usuario" maxlength="30">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Contraseña:</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control rounded-pill" name="pass_usuario" maxlength="30">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Tipo:</label>
+                    <div class="col-6 col-sm-6 col-lg-5">
+                        <select class="form-control rounded-pill" name="tipo_usuario" id="tipo_usuario">
+                            <option value="usr">Usuario</option>
+                            <option value="col">Colaborador</option>
+                            <option value="adm">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-6 col-sm-4 col-lg-3 col-form-label">
+                        <input type="submit" class="form-control rounded-pill bg-success text-white" value="Alta Usuario" name="altaUser">
+                    </div>
+                </div>
 
-    <table class="tabla">
-        <tr>
-            <td class="tabla"><label>Nombre:</label></td>
-            <td><input type="text" name="nombre_usuario" maxlength="30" size="40" /></td>
-        </tr>
-        <tr>
-            <td class="tabla"><label>E-mail:</label></td>
-            <td><input type="text" name="email_usuario" maxlength="30" size="40" /></td>
-        </tr>
-        <tr>
-            <td class="tabla"><label>Contraseña:</label></td>
-            <td><input type="text" name="pass_usuario" size="40" maxlength="30" /></td>
-        </tr>
-        <tr>
-            <td class="tabla"><label>Tipo:</label></td>
-            <td><select name="tipo_usuario" id="tipo_usuario">
-                    <option value="adm">Administrador</option>
-                    <option value="col">Colaborador</option>
-                    <option value="usr">Usuario</option>
-                </select></td>
-        </tr>
-        <tr>
-            <td class="boton" colspan="2">
-                <input type="submit" value="Alta Usuario" name="altaUser" />
-            </td>
-        </tr>
-    </table>
 
-</form>
+            </form>
+        </div>
+    </div> <!-- fin row -->
+</div> <!-- fin container -->

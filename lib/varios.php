@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 function dibuja_select($nomSel, $datos, $campo1, $activo = "", $campo2 = "", $campo3 = "", $todos = false)
 {
