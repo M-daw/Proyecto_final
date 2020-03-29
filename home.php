@@ -1,7 +1,7 @@
 <div class="container pt-3">
     <div class="row">
+        <h1 class="mb-5" id="encabezadoMain">Herbario On-line de la Sierra de Crevillent</h1>
         <div class="col-md-6 text-justify">
-            <h1 id="encabezadoMain">Herbario On-line</h1>
             <h2>¿Qué es un Herbario?</h2>
             <p>
                 Un herbario es una colección de plantas o partes de plantas debidamente identificadas, y que contiene
@@ -21,32 +21,26 @@
             </p>
 
             <h2>¿Qué voy a encontrar en este Herbario Virtual</h2>
-            <p>El Herbario Virtual se ha estructurado en fichas, o páginas propias para cada especie vegetal tratada. El
-                motivo principal de cada ficha son las imágenes de las plantas, pero también una breve información en
-                forma
-                de
-                texto
-                sobre la misma, a demás de sus nombres científicos, catalanes y castellanos.
-                En este hebario podrás encontrar plantas vasculares encontradas en Crevillent, Alicante.
-                Este Herbario Virtual es un proyecto vivo, como cualquier banco de datos su valor se encuentra en una
-                constante
-                incorporación de nuevas imágenes y nueva información.</p>
+            <p>En este hebario podrás encontrar plantas vasculares encontradas en Crevillent, Alicante. <br>
+                El Herbario Virtual se ha estructurado en fichas, o páginas propias para cada especie vegetal presente en el herbario. Cada ficha consta de imágenes de las plantas (porte general, flor, hoja y fruto), e información sobre las características diagnósticas de la planta, además de su nombre científico, en castellano, catalán e inglés, y otros datos como distribución, hábitat o su estado de conservacion.
+
+            </p>
         </div>
         <div class="col-md-6 d-flex justify-content-end">
-            <picture><img src="img/lino_portada.jpg" alt="" class="img-fluid border border-success rounded"></picture>
+            <picture><img src="img/lino_portada.jpg" alt="" class="img-fluid border border-success rounded-lg"></picture>
         </div>
     </div> <!-- fin row -->
 </div> <!-- fin container -->
-    <div class="row" id="deg">
-        <div class="swiper-container col-12 py-5">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" style="background-image:url(./img/slider1.jpg)"></div>
-                <div class="swiper-slide" style="background-image:url(./img/slider2.jpg)"></div>
-                <div class="swiper-slide" style="background-image:url(./img/slider3.jpg)"></div>
-                <div class="swiper-slide" style="background-image:url(./img/slider4.jpg)"></div>
-                <div class="swiper-slide" style="background-image:url(./img/slider5.jpg)"></div>
-            </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
+<div class="row" id="deg">
+    <div id="galeria-principal" class="swiper-container col-12 py-5">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image:url(./img/slider1.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider2.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider3.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider4.jpg)"></div>
+            <div class="swiper-slide" style="background-image:url(./img/slider5.jpg)"></div>
         </div>
-    </div> <!-- fin row -->
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+</div> <!-- fin row -->

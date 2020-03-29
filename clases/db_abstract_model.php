@@ -61,5 +61,17 @@ abstract class DBAbstractModel {
 	public function get_rows(){
 		return $this->rows;
 	}
+
+	###### Método para recoger los valores de los enum de la BD #####
+	public function getSQLEnumArray($table, $field){
+		$this->query = "SHOW COLUMNS FROM ".$table." LIKE '".$field ."'";
+		//echo $this->query;
+		$this->open_connection();
+		$row = $this->conn->query($this->query)->fetch_assoc();
+		preg_match_all("/'(.*?)'/", $row['Type'], $categories);
+		$fields = $categories[1];
+		$this->close_connection();
+		return $fields;
+	}
+
 }
-?>

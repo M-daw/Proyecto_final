@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+/* ########### Estructura ########### */
 body{
   background-image: url("../img/fondo_m.jpg");
   background-repeat: no-repeat;
@@ -16,6 +17,16 @@ body{
 main{
   min-height: 86vh; /*mirar de ponerlo como clase de bootstrap min-100-vh*/
 }
+
+/* ########### Footer ########### */
+footer div:first-of-type{
+  background-image: url("../img/cenefa_footer.png");
+  background-repeat:repeat-x;
+  background-position: bottom center;
+  height: 75px;
+} 
+
+/* ########### Tablas ########### */
 .grad{
   background-image: linear-gradient(90deg, green, #cff0c2);
   padding: 25px;
@@ -27,21 +38,54 @@ th:last-child, tr td:last-child{
   padding-right: 2rem !important;
 }
 
-/*.swiper-container {
-  width: 100%;
-  padding-top: 50px !important;
-  padding-bottom: 50px !important;*//*necesita important para el padding
-}*/
-.swiper-slide {
+#ficha{
+  border: 30px solid transparent;
+  border-top-width: 120px;
+  border-image: url("../img/fondo_ficha.png") 250 50 50 50 round;
+  background-image: url("../img/fondo_ficha.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-color: #cff0c2;
+  background-size: cover;
+  background-clip: padding-box;
+}
+/* ########### Estilo de las galerías ########### */
+#galeria-principal .swiper-slide {
   background-position: center;
   background-size: cover;
   max-width: 400px;
   min-height: 300px;
 }
+#galeria-planta {
+  width: 100%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#galeria-planta .swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+.gallery-top {
+  height: 100%;
+  width: 100%;
+}
+.gallery-thumbs {
+  height: auto;
+  padding: 10px 0;
+}
+.gallery-thumbs .swiper-slide {
+  opacity: 0.4;
+}
+.gallery-thumbs .swiper-slide-thumb-active {
+  opacity: 1;
+}
 
+/* ########### Cambios responsivos ########### */
 @media screen and (min-width: 768px) {
   body{
-    background-image: url("../img/3439394.jpg");
+    background-image: url("../img/fondo_d.jpg");
   }
   
 }

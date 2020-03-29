@@ -1,5 +1,5 @@
 <?php
-
+//var_dump($_POST);
 if (isset($_POST['modifPlanta'])) {
     $planta = new Planta();
     //$planta->edit($_POST);  //no puedo usar $_POST porque tb tengo datos en $_FILES
@@ -17,22 +17,21 @@ if (isset($_POST['modifPlanta'])) {
     $floracion = $_POST['floracion'];
     $foto_general = subirImagen('foto_general');
     $foto_flor = subirImagen('foto_flor');
-    $foto_hoja =subirImagen('foto_hoja');
-    $foto_fruto =subirImagen('foto_fruto');
+    $foto_hoja = subirImagen('foto_hoja');
+    $foto_fruto = subirImagen('foto_fruto');
     $id_usuario = $_POST['id_usuario'];
     $id_planta = $_POST['id_planta'];
     $datos = array('nombre_cientifico' => $nombre_cientifico, 'nombre_castellano' => $nombre_castellano, 'nombre_valenciano' => $nombre_valenciano, 'nombre_ingles' => $nombre_ingles, 'familia' => $familia, 'caracteres_diagnosticos' => $caracteres_diagnosticos, 'uso' => $uso, 'biotipo' => $biotipo, 'habitat' => $habitat, 'distribucion' => $distribucion, 'cat_UICN' => $cat_UICN, 'floracion' => $floracion, 'foto_general' => $foto_general, 'foto_flor' => $foto_flor, 'foto_hoja' => $foto_hoja, 'foto_fruto' => $foto_fruto, 'id_usuario' => $id_usuario, 'id_planta' => $id_planta);
     $planta->edit($datos);
     $error = $planta->error;
     $msg = $planta->msg;
-
 }
-if (isset($_POST['borrSI'])) {
+/* if (isset($_POST['borrSI'])) {
     $planta = new PLanta();
     $planta->delete($_POST['b']);
     $error = $planta->error;
     $msg = $planta->msg;
-}
+} 
 
 if (isset($_GET['b'])) {
 
@@ -43,10 +42,58 @@ if (isset($_GET['b'])) {
     echo "<input type='hidden' value='{$_GET['b']}' name='b'/>";
     echo "</form>";
 }
+*/
+
+$nombre_cientifico = "";
+$nombre_castellano = "";
+$nombre_valenciano = "";
+$nombre_ingles = "";
+$familia = "";
+$caracteres_diagnosticos = "";
+$uso = "";
+$biotipo = "";
+$habitat = "";
+$distribucion = "";
+$cat_UICN = "";
+$floracion = "";
+$foto_general = "";
+$foto_flor = "";
+$foto_hoja = "";
+$foto_fruto = "";
+$id_usuario = "";
+//$aux = new Planta();
+//$biotipos = $aux->getSQLEnumArray('plantas', 'biotipo');
+//$categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
+if (isset($_POST['altaPlanta'])) {
+    $nombre_cientifico = $_POST['nombre_cientifico'];
+    $nombre_castellano = $_POST['nombre_castellano'];
+    $nombre_valenciano = $_POST['nombre_valenciano'];
+    $nombre_ingles = $_POST['nombre_ingles'];
+    $familia = $_POST['familia'];
+    $caracteres_diagnosticos = $_POST['caracteres_diagnosticos'];
+    $uso = $_POST['uso'];
+    $biotipo = $_POST['biotipo'];
+    $habitat = $_POST['habitat'];
+    $distribucion = $_POST['distribucion'];
+    $cat_UICN = $_POST['cat_UICN'];
+    $floracion = $_POST['floracion'];
+    $foto_general = subirImagen('foto_general');
+    $foto_flor = subirImagen('foto_flor');
+    $foto_hoja = subirImagen('foto_hoja');
+    $foto_fruto = subirImagen('foto_fruto');
+    $id_usuario = $_POST['id_usuario'];
+    $planta = new Planta();
+    //$planta->set($_POST); //no puedo usar $_POST porque las imágenes están en $_FILES
+    $datos = array('nombre_cientifico' => $nombre_cientifico, 'nombre_castellano' => $nombre_castellano, 'nombre_valenciano' => $nombre_valenciano, 'nombre_ingles' => $nombre_ingles, 'familia' => $familia, 'caracteres_diagnosticos' => $caracteres_diagnosticos, 'uso' => $uso, 'biotipo' => $biotipo, 'habitat' => $habitat, 'distribucion' => $distribucion, 'cat_UICN' => $cat_UICN, 'floracion' => $floracion, 'foto_general' => $foto_general, 'foto_flor' => $foto_flor, 'foto_hoja' => $foto_hoja, 'foto_fruto' => $foto_fruto, 'id_usuario' => $id_usuario);
+    $planta->set($datos);
+    $error = $planta->error;
+    $msg = $planta->msg;
+}
 
 $planta = new Planta();
 #capturo el error que devuelve si no hay archivo de configuración. Si no hay error, continuo
 $error = $planta->error;
+//$error = $aux-> error;
 if ($error === "") {
 
 ?>
@@ -59,7 +106,6 @@ if ($error === "") {
             $planta->get(); //esto es del original
             if (count($planta->get_rows()) > 0) {
             ?>
-
                 <thead>
                     <tr>
                         <?php
@@ -82,7 +128,8 @@ if ($error === "") {
                             echo "<th>" . $fila['nombre_cientifico'] . "</th><td>" .
                                 $fila['nombre_castellano'] . "</td><td>" . $fila['nombre_valenciano'] . "</td><td> " .
                                 $fila['familia'] . "</td><td class=\"text-center\"> ";
-                            echo "<a href='index.php?p=gp&b={$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i> </a></td><td class=\"text-center\">";
+                            //echo "<a href='index.php?p=gp&b={$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i> </a></td><td class=\"text-center\">";
+                            echo "<a href='javascript:void(0)' class='botonBorrar' data-tipo ='planta' data-id='{$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i></a></td><td class=\"text-center\">";
                             echo "<a href='index.php?p=mp&m={$fila['id_planta']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>";
                             echo "</tr>";
                         }

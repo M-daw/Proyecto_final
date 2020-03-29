@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2020 a las 20:16:15
+-- Tiempo de generación: 29-03-2020 a las 16:30:32
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.3
 
@@ -25,14 +25,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `galeria`
+-- Estructura de tabla para la tabla `imagenes`
 --
 
-CREATE TABLE `galeria` (
+CREATE TABLE `imagenes` (
   `id_imagen` int(11) NOT NULL,
   `id_planta` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `imagen` varchar(50) COLLATE latin1_spanish_ci NOT NULL
+  `enlace_imagen` varchar(50) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
@@ -53,13 +53,12 @@ CREATE TABLE `plantas` (
   `biotipo` enum('terófito','hemicriptófito','geófito','caméfito','fanerófito','hidrófito') COLLATE latin1_spanish_ci NOT NULL,
   `habitat` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
   `distribucion` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
-  `cat_UICN` enum('LC','NT','VU','EN','CR','EW','EX') COLLATE latin1_spanish_ci NOT NULL,
+  `cat_UICN` enum('LC Preocupación menor','NT Casi amenazada','VU Vulnerable','EN En peligro','CR EN peligro crítico','EW Extinta en estado silvestre','EX Extinta') COLLATE latin1_spanish_ci NOT NULL,
   `floracion` text COLLATE latin1_spanish_ci NOT NULL,
   `foto_general` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `foto_flor` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `foto_hoja` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `foto_fruto` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `galeria` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -74,7 +73,7 @@ CREATE TABLE `usuarios` (
   `nombre_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   `email_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   `pass_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  `tipo_usuario` varchar(3) COLLATE latin1_spanish_ci NOT NULL
+  `tipo_usuario` enum('Usuario','Colaborador','Administrador') COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
@@ -82,9 +81,9 @@ CREATE TABLE `usuarios` (
 --
 
 --
--- Indices de la tabla `galeria`
+-- Indices de la tabla `imagenes`
 --
-ALTER TABLE `galeria`
+ALTER TABLE `imagenes`
   ADD PRIMARY KEY (`id_imagen`),
   ADD UNIQUE KEY `id_planta` (`id_planta`,`id_usuario`),
   ADD KEY `id_usuario` (`id_usuario`);
@@ -94,22 +93,24 @@ ALTER TABLE `galeria`
 --
 ALTER TABLE `plantas`
   ADD PRIMARY KEY (`id_planta`),
+  ADD UNIQUE KEY `nombre_cientifico` (`nombre_cientifico`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email_usuario` (`email_usuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `galeria`
+-- AUTO_INCREMENT de la tabla `imagenes`
 --
-ALTER TABLE `galeria`
+ALTER TABLE `imagenes`
   MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -129,11 +130,11 @@ ALTER TABLE `usuarios`
 --
 
 --
--- Filtros para la tabla `galeria`
+-- Filtros para la tabla `imagenes`
 --
-ALTER TABLE `galeria`
-  ADD CONSTRAINT `galeria_ibfk_1` FOREIGN KEY (`id_planta`) REFERENCES `plantas` (`id_planta`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `galeria_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `imagenes`
+  ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_planta`) REFERENCES `plantas` (`id_planta`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `imagenes_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `plantas`

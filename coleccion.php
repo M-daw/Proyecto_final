@@ -4,8 +4,7 @@ $planta = new Planta();
 $error = $planta->error;
 if ($error === "") {
 
-
-    $planta->get(); //esto es del original
+    $planta->get();
     if (count($planta->get_rows()) > 0) {
 ?>
         <div class="container table-responsive">
@@ -15,8 +14,7 @@ if ($error === "") {
                         <?php
                         $datos = $planta->get_rows();
                         foreach ($datos as $indice => $fila) {
-                            if ($indice == 0) { //solo pone las cabeceras la primera vez
-
+                            if ($indice == 0) { //solo pone las cabeceras la primera vez. Las pongo "a mano"
                                 echo "<th class=\"pt-4\">";
                                 echo "Nombre científico </th><th>Nombre castellano </th><th>Nombre valenciano </th><th>Familia";
                                 echo "</th>";

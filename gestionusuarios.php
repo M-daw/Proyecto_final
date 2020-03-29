@@ -1,5 +1,5 @@
 <?php
-
+//var_dump($_POST);
 if (isset($_POST['modifUser'])) {
     $usuario = new Usuario();
     $usuario->edit($_POST);
@@ -7,22 +7,28 @@ if (isset($_POST['modifUser'])) {
     $msg = $usuario->msg;
 }
 if (isset($_POST['borrSI'])) {
-    $usuario = new Usuario();
+    /*$usuario = new Usuario();
     $usuario->delete($_POST['b']);
     $error = $usuario->error;
-    $msg = $usuario->msg;
+    $msg = $usuario->msg;*/
 }
 
 if (isset($_GET['b'])) {
-
-    echo "<form action='index.php?p=gu' method='POST' >";
+    //la confirmación del borrado se hace en un modal. Necesito hacer una llamada AJAX y el borrado debe estar en otro archivo php
+    /* echo "<form action='index.php?p=gu' method='POST' >";
     echo "Vas a borrar al usuario " . $_GET['b'] . ". ¿Estás seguro?<br/><br/>";
     echo "<input type='submit' value='SI' name='borrSI'/>";
     echo "<input type='submit' value='NO' name='borrNO'/>";
     echo "<input type='hidden' value='{$_GET['b']}' name='b'/>";
-    echo "</form>";
+    echo "</form>"; */
 }
 
+if (isset($_POST['altaUser'])) {
+    $usuario = new Usuario();
+    $usuario->set($_POST);  //no hace falta recoger los inputs en variables, le puedo pasar $_POST como array de datos al método set
+    $error = $usuario->error;
+    $msg = $usuario->msg;
+}
 
 $usuario = new Usuario();
 #capturo el error que devuelve si no hay archivo de configuración. Si no hay error, continuo
@@ -35,7 +41,7 @@ if ($error === "") {
 
             <?php
 
-            $usuario->get(); //esto es del original
+            $usuario->get(); //esto es de los ejercicios modelo
             if (count($usuario->get_rows()) > 0) {
             ?>
 
@@ -62,7 +68,9 @@ if ($error === "") {
                             echo "<td>" . $fila['id_usuario'] . "</td><td>" . $fila['nombre_usuario'] . "</td><td>" .
                                 $fila['email_usuario'] . "</td><td>" . $fila['pass_usuario'] . "</td><td> " .
                                 $fila['tipo_usuario'] . "</td><td class=\"text-center\"> ";
-                            echo "<a href='index.php?p=gu&b={$fila['id_usuario']}'><i class=\"fas fa-user-times text-success\"></i> </a></td><td class=\"text-center\">";
+                            //echo "<a href='index.php?p=gu&b={$fila['id_usuario']}'><i class=\"fas fa-user-times text-success\"></i> </a></td><td class=\"text-center\">";
+                            //con el botón para borrar llamo a un modal que muestra la confirmación del borrado. Uso la librería bootbox de JQuery para construirlo. Necesito hacer una llamada AJAX y el borrado debe estar en otro archivo php
+                            echo "<a href='javascript:void(0)' class='botonBorrar' data-tipo ='usuario' data-id='{$fila['id_usuario']}'><i class=\"fas fa-user-times text-success\"></i></a></td><td class=\"text-center\">";
                             echo "<a href='index.php?p=mu&m={$fila['id_usuario']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>";
                             echo "</tr>";
                         }
