@@ -11,7 +11,8 @@ class Imagen extends DBAbstractModel
 	function __construct()
 	{
 		//se modifica este método para poder modificar los datos de conexión a la base de datos sin necesidad de modificar las clases, solo editando un archivo de texto
-		$fichero = "config.txt";
+		$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
+		$fichero = $raiz . "/Proyecto/config.txt";
 		$contenido = array();
 
 		if (is_file($fichero)) {
@@ -53,6 +54,43 @@ class Imagen extends DBAbstractModel
 			endforeach;
 		endif;
 	}
+
+	public function getFromUser($id_usuario = '')
+	{ //se añade función para obtener la planta a partir de su nombre científico, que necesito para ver si está ya registrada
+		if ($id_usuario != '') {
+			$this->query = "
+			SELECT *
+			FROM imagenes
+			WHERE id_usuario = '$id_usuario'
+			";
+			//echo $this->query;
+			$this->get_results_from_query();
+		}
+		if (count($this->rows) == 1) :
+			foreach ($this->rows[0] as $propiedad => $valor) :
+				$this->$propiedad = $valor;
+			endforeach;
+		endif;
+	}
+
+	public function getFromPlant($id_planta = '')
+	{ //se añade función para obtener la planta a partir de su nombre científico, que necesito para ver si está ya registrada
+		if ($id_planta != '') {
+			$this->query = "
+			SELECT *
+			FROM imagenes
+			WHERE id_planta = '$id_planta'
+			";
+			//echo $this->query;
+			$this->get_results_from_query();
+		}
+		if (count($this->rows) == 1) :
+			foreach ($this->rows[0] as $propiedad => $valor) :
+				$this->$propiedad = $valor;
+			endforeach;
+		endif;
+	}
+
 	public function set($data = array())
 	{
 		//como el id_imagen es autoincrementable, nunca se repetirá... no hace falta comprobar si existe
@@ -65,9 +103,10 @@ class Imagen extends DBAbstractModel
 				VALUES
 				('$id_planta', '$id_usuario', '$enlace_imagen')
 				";
+		//echo $this->query;
 		$this->execute_single_query();
 		if ($this->error == "") //si no hay error
-			$this->msg = 'Imagen ' . $id_imagen . ' agregada con éxito';
+			$this->msg = 'Imagen agregada con éxito';
 	}
 	public function edit($data = array())
 	{

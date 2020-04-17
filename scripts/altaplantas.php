@@ -65,7 +65,7 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Nombre científico:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="nombre_cientifico" maxlength="100"></div>
+                        <input type="text" class="form-control rounded-pill" name="nombre_cientifico" maxlength="100" required></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Nombre en castellano:</label>
@@ -85,17 +85,17 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Familia:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="familia" maxlength="30"></div>
+                        <input type="text" class="form-control rounded-pill" name="familia" maxlength="30" required></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Caracteres diagnósticos:</label>
                     <div class="col-md-10">
-                        <textarea name="caracteres_diagnosticos" class="form-control" rows="4" cols="40"></textarea></div>
+                        <textarea name="caracteres_diagnosticos" class="form-control" rows="4" required></textarea></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Uso:</label>
                     <div class="col-md-10">
-                        <textarea name="uso" class="form-control" rows="4" cols="40"></textarea></div>
+                        <textarea name="uso" class="form-control" rows="4"></textarea></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Biotipo:</label>
@@ -140,29 +140,29 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto general:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_general" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_general" maxlength="50" accept="image/gif, image/jpeg, image/png">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto de la flor:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_flor" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_flor" maxlength="50" accept="image/gif, image/jpeg, image/png">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto de la hoja:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_hoja" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_hoja" maxlength="50" accept="image/gif, image/jpeg, image/png">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto del fruto:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_fruto" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_fruto" maxlength="50" accept="image/gif, image/jpeg, image/png">
                     </div>
                 </div>
 
-                <input type="hidden" name="id_usuario" value="1" maxlength="11">
+                <input type="hidden" name="id_usuario" value="<?=$id_usuarioS; ?>" maxlength="11">
 
                 <div class="form-group row">
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">

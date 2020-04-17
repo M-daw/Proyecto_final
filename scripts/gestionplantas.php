@@ -1,8 +1,11 @@
 <?php
+//var_dump($_FILES); 
 //var_dump($_POST);
 if (isset($_POST['modifPlanta'])) {
     $planta = new Planta();
     //$planta->edit($_POST);  //no puedo usar $_POST porque tb tengo datos en $_FILES
+    $id_planta = $_POST['id_planta'];
+    $planta->get($id_planta); //de forma provisional, recupero los datos de la planta a modificar, para poder acceder a sus imágenes
     $nombre_cientifico = $_POST['nombre_cientifico'];
     $nombre_castellano = $_POST['nombre_castellano'];
     $nombre_valenciano = $_POST['nombre_valenciano'];
@@ -16,17 +19,26 @@ if (isset($_POST['modifPlanta'])) {
     $cat_UICN = $_POST['cat_UICN'];
     $floracion = $_POST['floracion'];
     $foto_general = subirImagen('foto_general');
+    if ($foto_general == "")
+        $foto_general = $planta->foto_general; //si no he actualizado la foto, tomo la que tenía guardada, para evitar borrarla durante la actualización
     $foto_flor = subirImagen('foto_flor');
+    if ($foto_flor == "")
+        $foto_flor = $planta->foto_flor;
     $foto_hoja = subirImagen('foto_hoja');
+    if ($foto_hoja == "")
+        $foto_hoja = $planta->foto_hoja;
     $foto_fruto = subirImagen('foto_fruto');
+    if ($foto_fruto == "")
+        $foto_fruto = $planta->foto_fruto;
     $id_usuario = $_POST['id_usuario'];
-    $id_planta = $_POST['id_planta'];
     $datos = array('nombre_cientifico' => $nombre_cientifico, 'nombre_castellano' => $nombre_castellano, 'nombre_valenciano' => $nombre_valenciano, 'nombre_ingles' => $nombre_ingles, 'familia' => $familia, 'caracteres_diagnosticos' => $caracteres_diagnosticos, 'uso' => $uso, 'biotipo' => $biotipo, 'habitat' => $habitat, 'distribucion' => $distribucion, 'cat_UICN' => $cat_UICN, 'floracion' => $floracion, 'foto_general' => $foto_general, 'foto_flor' => $foto_flor, 'foto_hoja' => $foto_hoja, 'foto_fruto' => $foto_fruto, 'id_usuario' => $id_usuario, 'id_planta' => $id_planta);
     $planta->edit($datos);
     $error = $planta->error;
     $msg = $planta->msg;
 }
-/* if (isset($_POST['borrSI'])) {
+/* 
+//antes de añadir el modal se borraba y se pedía la confirmación en esta misma página
+if (isset($_POST['borrSI'])) {
     $planta = new PLanta();
     $planta->delete($_POST['b']);
     $error = $planta->error;
@@ -34,7 +46,6 @@ if (isset($_POST['modifPlanta'])) {
 } 
 
 if (isset($_GET['b'])) {
-
     echo "<form action='index.php?p=gp' method='POST' >";
     echo "Vas a borrar la planta " . $_GET['b'] . ". ¿Estás seguro?<br/><br/>";
     echo "<input type='submit' value='SI' name='borrSI'/>";
@@ -61,9 +72,6 @@ $foto_flor = "";
 $foto_hoja = "";
 $foto_fruto = "";
 $id_usuario = "";
-//$aux = new Planta();
-//$biotipos = $aux->getSQLEnumArray('plantas', 'biotipo');
-//$categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
 if (isset($_POST['altaPlanta'])) {
     $nombre_cientifico = $_POST['nombre_cientifico'];
     $nombre_castellano = $_POST['nombre_castellano'];
@@ -93,17 +101,15 @@ if (isset($_POST['altaPlanta'])) {
 $planta = new Planta();
 #capturo el error que devuelve si no hay archivo de configuración. Si no hay error, continuo
 $error = $planta->error;
-//$error = $aux-> error;
 if ($error === "") {
-
 ?>
 
     <div class="container table-responsive">
         <table class="table table-hover grad w-auto mx-auto my-5">
 
             <?php
-            //el contenedor y la tabla se dejan fuera del if..else, para poder contener el botón de crear plantas, que tiene que estar siempre disponible
-            $planta->get(); //esto es del original
+            //el contenedor y la tabla se dejan fuera del if..else, para poder contener el botón de crear plantas, que tiene que estar siempre disponibles
+            $planta->get();  //este código es de los ejercicios modelo
             if (count($planta->get_rows()) > 0) {
             ?>
                 <thead>
@@ -111,27 +117,33 @@ if ($error === "") {
                         <?php
                         $datos = $planta->get_rows();
                         foreach ($datos as $indice => $fila) {
-                            if ($indice == 0) { //solo pone las cabeceras la primera vez
-
+                            if ($indice == 0) { //solo se ponen las cabeceras la primera vuelta. Se escriben por los acentos
                                 echo "<th class=\"pt-4\">";
-                                echo "Nombre científico </th><th>Nombre castellano </th><th>Nombre valenciano </th><th>Familia";
+                                echo "Id </th>\n<th>Nombre científico</th>\n<th>Nombre castellano</th>\n<th>Nombre valenciano </th>\n<th>Familia";
                                 echo "</th>";
 
+                                //solo los usuarios de tipo Administrador pueden borrar plantas de la base de datos
+                                if ($tipoS == "Administrador") {
                         ?>
                                 <th>borrar</th>
+                                <?php
+                    }
+                    ?>        
                                 <th>modif.</th>
                     </tr>
                 </thead>
     <?php
                             }
-                            echo "<tr>";
-                            echo "<th>" . $fila['nombre_cientifico'] . "</th><td>" .
-                                $fila['nombre_castellano'] . "</td><td>" . $fila['nombre_valenciano'] . "</td><td> " .
-                                $fila['familia'] . "</td><td class=\"text-center\"> ";
-                            //echo "<a href='index.php?p=gp&b={$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i> </a></td><td class=\"text-center\">";
-                            echo "<a href='javascript:void(0)' class='botonBorrar' data-tipo ='planta' data-id='{$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i></a></td><td class=\"text-center\">";
-                            echo "<a href='index.php?p=mp&m={$fila['id_planta']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>";
-                            echo "</tr>";
+                            echo "<tr>\n";
+                            echo "<th>" . $fila['id_planta'] . "</th>\n<th>" . $fila['nombre_cientifico'] . "</th>\n<td>" .
+                                $fila['nombre_castellano'] . "</td>\n<td>" . $fila['nombre_valenciano'] . "</td>\n<td> " .
+                                $fila['familia'] . "</td>\n";
+                            if ($tipoS == "Administrador") {
+                                //echo "<a href='index.php?p=gp&b={$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i> </a></td>";  //"botón" cuando se borraba en esta misma página
+                                echo "<td class=\"text-center\"><a href='javascript:void(0)' class='botonBorrar' data-tipo ='planta' data-id='{$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i></a></td>\n";
+                            }
+                            echo "<td class=\"text-center\"><a href='index.php?p=mp&m={$fila['id_planta']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>\n";
+                            echo "</tr>\n";
                         }
                     } else {
                         $msg = "NO HAY PLANTAS";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-03-2020 a las 16:30:32
+-- Tiempo de generación: 17-04-2020 a las 18:18:14
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.3
 
@@ -32,7 +32,7 @@ CREATE TABLE `imagenes` (
   `id_imagen` int(11) NOT NULL,
   `id_planta` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `enlace_imagen` varchar(50) COLLATE latin1_spanish_ci NOT NULL
+  `enlace_imagen` varchar(250) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
@@ -55,10 +55,10 @@ CREATE TABLE `plantas` (
   `distribucion` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
   `cat_UICN` enum('LC Preocupación menor','NT Casi amenazada','VU Vulnerable','EN En peligro','CR EN peligro crítico','EW Extinta en estado silvestre','EX Extinta') COLLATE latin1_spanish_ci NOT NULL,
   `floracion` text COLLATE latin1_spanish_ci NOT NULL,
-  `foto_general` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_flor` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_hoja` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_fruto` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `foto_general` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_flor` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_hoja` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_fruto` varchar(250) COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -71,7 +71,7 @@ CREATE TABLE `plantas` (
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  `email_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `email_usuario` varchar(40) COLLATE latin1_spanish_ci NOT NULL,
   `pass_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   `tipo_usuario` enum('Usuario','Colaborador','Administrador') COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
@@ -85,8 +85,8 @@ CREATE TABLE `usuarios` (
 --
 ALTER TABLE `imagenes`
   ADD PRIMARY KEY (`id_imagen`),
-  ADD UNIQUE KEY `id_planta` (`id_planta`,`id_usuario`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_planta` (`id_planta`,`id_usuario`) USING BTREE;
 
 --
 -- Indices de la tabla `plantas`

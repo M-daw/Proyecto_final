@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-03-2020 a las 16:31:47
+-- Tiempo de generación: 17-04-2020 a las 18:18:21
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.3
 
@@ -32,8 +32,16 @@ CREATE TABLE `imagenes` (
   `id_imagen` int(11) NOT NULL,
   `id_planta` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `enlace_imagen` varchar(50) COLLATE latin1_spanish_ci NOT NULL
+  `enlace_imagen` varchar(250) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `imagenes`
+--
+
+INSERT INTO `imagenes` (`id_imagen`, `id_planta`, `id_usuario`, `enlace_imagen`) VALUES
+(21, 42, 1, './img/plantas/galerias/slider2.jpg'),
+(28, 42, 1, './img/plantas/galerias/Sierra_de_Crevillente.jpg');
 
 -- --------------------------------------------------------
 
@@ -55,10 +63,10 @@ CREATE TABLE `plantas` (
   `distribucion` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
   `cat_UICN` enum('LC Preocupación menor','NT Casi amenazada','VU Vulnerable','EN En peligro','CR EN peligro crítico','EW Extinta en estado silvestre','EX Extinta') COLLATE latin1_spanish_ci NOT NULL,
   `floracion` text COLLATE latin1_spanish_ci NOT NULL,
-  `foto_general` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_flor` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_hoja` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `foto_fruto` varchar(50) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `foto_general` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_flor` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_hoja` varchar(250) COLLATE latin1_spanish_ci NOT NULL,
+  `foto_fruto` varchar(250) COLLATE latin1_spanish_ci DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -67,8 +75,12 @@ CREATE TABLE `plantas` (
 --
 
 INSERT INTO `plantas` (`id_planta`, `nombre_cientifico`, `nombre_castellano`, `nombre_valenciano`, `nombre_ingles`, `familia`, `caracteres_diagnosticos`, `uso`, `biotipo`, `habitat`, `distribucion`, `cat_UICN`, `floracion`, `foto_general`, `foto_flor`, `foto_hoja`, `foto_fruto`, `id_usuario`) VALUES
-(1, 'Diplotaxis erucoides', 'Oruga silvestre, rabaniza blanca, jaramago blanco', 'Ravenissa blanca, ravanell', ' white rocket, white wallrocket', 'Cruciferae', '                                                                                                                                                                                                                                     Es una planta herbácea con hojas irregulares y flores blancas de 4 pétalos con disposición en cruz, 6 estambres en 2 niveles. Presenta cáliz y estambres en la misma flor, también hay sépalos, que en el botón floral son densamente hirsutos.\r\nEs la única del género con flores de pétalos blancos. Alcanza un porte de 20-50 cm y sus hojas inferiores, que se agrupan en roseta, son oblongas, de pinnatífidas a pinnatipartidas, las superiores son sésiles y de base truncada o semiamplexicaule, raramente cuneada.\r\nEs una de las hierbas más abundantes durante el otoño y el invierno en los campos de cultivo, aunque puede estar en flor en cualquier época del año. Las semillas se encuentran en vainas dehiscentes con disposición en doble fila, raíz típica, alrededor de un eje central.                                                                                                                                                                                                                                              ', '                                                                                                                                                                                                                                             Alimento de ganado y aves domésticas                                                                                                                                                                                                                                                ', 'terófito', 'Habita frecuentemente en terrenos baldíos, bordes de los caminos y campos de cultivo', 'Cuenca Mediterránea', 'LC Preocupación menor', 'Todo el año', '', '', '', '', 1),
-(39, 'plantus borradie', '', 'plantuja', '', '', '                                                ', '                                                ', 'terófito', '', '', 'LC Preocupación menor', '', '', '', '', '', 1);
+(1, 'Diplotaxis erucoides', 'Oruga silvestre, rabaniza blanca, jaramago blanco', 'Ravenissa blanca, ravanell', ' white rocket, white wallrocket', 'Cruciferae', '                                                                                                                                                                                                                                                                                                                                     Es una planta herbácea con hojas irregulares y flores blancas de 4 pétalos con disposición en cruz, 6 estambres en 2 niveles. Presenta cáliz y estambres en la misma flor, también hay sépalos, que en el botón floral son densamente hirsutos.\r\nEs la única del género con flores de pétalos blancos. Alcanza un porte de 20-50 cm y sus hojas inferiores, que se agrupan en roseta, son oblongas, de pinnatífidas a pinnatipartidas, las superiores son sésiles y de base truncada o semiamplexicaule, raramente cuneada.\r\nEs una de las hierbas más abundantes durante el otoño y el invierno en los campos de cultivo, aunque puede estar en flor en cualquier época del año. Las semillas se encuentran en vainas dehiscentes con disposición en doble fila, raíz típica, alrededor de un eje central.                                                                                                                                                                                                                                                                                                                                              ', '                                                                                                                                                                                                                                                                                                                                             Alimento de ganado y aves domésticas                                                                                                                                                                                                                                                                                                                                                ', 'terófito', 'Habita frecuentemente en terrenos baldíos, bordes de los caminos y campos de cultivo', 'Cuenca Mediterránea', 'LC Preocupación menor', 'Todo el año', './img/plantas/slider1.jpg', '', '', '', 1),
+(39, 'plantus borradie', 'plantujo', 'plantuja', '', 'Laquesea', '                                                                                                                                                                                                                                                                                                                                                ', '                                                                                                                                                                                                                                                                                                                                                ', 'terófito', '', '', 'LC Preocupación menor', '', '', '', '', '', 1),
+(41, 'aaaaa', '', '', '', 'Otra', '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'terófito', '', '', 'LC Preocupación menor', '', '', '', '', '', 1),
+(42, 'plantus borradiet', '', '', '', 'Plantudine', '                                                                                                                        Es más alta que otras que se parecen y mola mazo                                                                                                                        ', '                                                                                                                                                                                                                                                ', 'terófito', '', '', 'LC Preocupación menor', '', './img/plantas/slider2.jpg', './img/plantas/slider3.jpg', './img/plantas/1587056537slider3.jpg', './img/plantas/1587055987slider3.jpg', 1),
+(43, 'loquesea', '', '', '', 'Laquesea', 'Tiene flores rojas,', '', 'terófito', '', '', 'LC Preocupación menor', '', '', '', '', '', 1),
+(44, 'planta de ana', 'Anilla', 'Aneta', '', 'Cruficerae', 'es la que tiene Ana', '', 'terófito', '', '', 'LC Preocupación menor', '', '', '', '', '', 2);
 
 -- --------------------------------------------------------
 
@@ -79,7 +91,7 @@ INSERT INTO `plantas` (`id_planta`, `nombre_cientifico`, `nombre_castellano`, `n
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  `email_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `email_usuario` varchar(40) COLLATE latin1_spanish_ci NOT NULL,
   `pass_usuario` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   `tipo_usuario` enum('Usuario','Colaborador','Administrador') COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
@@ -90,13 +102,17 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `email_usuario`, `pass_usuario`, `tipo_usuario`) VALUES
 (1, 'admin', 'admin@correo.com', 'admin', 'Administrador'),
-(2, 'ana', 'ana@correo.com', 'ana', 'Usuario'),
+(2, 'ana', 'ana@correo.com', 'Ana2', 'Colaborador'),
 (3, 'pepe', 'pepe@correo.com', 'pepe', 'Usuario'),
 (5, 'Profesor Uno', 'profesoruno@correo.com', 'uno', 'Colaborador'),
 (8, 'probando', 'probando#loqienans', '', 'Usuario'),
 (35, 'otro más', 'otro@correo.com', 'pass', 'Usuario'),
 (37, 'pepe', 'pepe@correo.es', 'pepe2', 'Usuario'),
-(45, 'manolo', 'manolo@correo.com', 'manolo', 'Usuario');
+(45, 'manolo', 'manolo@correo.com', 'manolo', 'Usuario'),
+(68, 'a', 'ana@correo.es', 'a', 'Usuario'),
+(106, '   aa a', 'aa@aa.es', 'aA1', 'Usuario'),
+(110, 'pepe', 'otro@correo.com.es', 'aA1', 'Usuario'),
+(111, 'borrar', 'pepe@correo.ese', 'Aa1', 'Usuario');
 
 --
 -- Índices para tablas volcadas
@@ -107,8 +123,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `email_usuario`, `pass_u
 --
 ALTER TABLE `imagenes`
   ADD PRIMARY KEY (`id_imagen`),
-  ADD UNIQUE KEY `id_planta` (`id_planta`,`id_usuario`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_planta` (`id_planta`,`id_usuario`) USING BTREE;
 
 --
 -- Indices de la tabla `plantas`
@@ -133,19 +149,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `plantas`
 --
 ALTER TABLE `plantas`
-  MODIFY `id_planta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_planta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- Restricciones para tablas volcadas

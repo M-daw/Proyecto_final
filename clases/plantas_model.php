@@ -26,7 +26,8 @@ class Planta extends DBAbstractModel
 	{
 		//$this->db_name = 'herbariodb';  //en la primera versión se pasa solo el nombre de la base de datos
 		//se modifica este método para poder cambiar los datos de conexión a la base de datos sin necesidad de tocar las clases, solo editando un archivo de texto
-		$fichero = "config.txt";
+		$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
+		$fichero = $raiz."/Proyecto/config.txt";
 		$contenido = array();
 
 		if (is_file($fichero)) {
@@ -52,11 +53,13 @@ class Planta extends DBAbstractModel
 			FROM plantas
 			WHERE id_planta = '$id'
 			";
+			//echo $this->query;
 			$this->get_results_from_query();
 		} else {
 			$this->query = "
 			SELECT *
 			FROM plantas";
+			//echo $this->query;
 			$this->get_results_from_query();
 		}
 		if (count($this->rows) == 1) :
@@ -73,6 +76,7 @@ class Planta extends DBAbstractModel
 			FROM plantas
 			WHERE nombre_cientifico = '$nombre_cientifico'
 			";
+			//echo $this->query;
 			$this->get_results_from_query();
 		}
 		if (count($this->rows) == 1) :
@@ -86,7 +90,7 @@ class Planta extends DBAbstractModel
 		//el id_planta es autoincrementable, nunca se repetirá, pero hay que comprobar si el nombre científico está registrado
 		if (array_key_exists('nombre_cientifico', $data)) {
 			$this->getFromName($data['nombre_cientifico']); //leemos el nombre por si existe, no añadir la planta de nuevo
-			
+
 			if ($data['nombre_cientifico'] != $this->nombre_cientifico) {
 				foreach ($data as $campo => $valor) :
 					$$campo = $valor;
@@ -113,8 +117,8 @@ class Planta extends DBAbstractModel
 		//compruebo si el nombre científico está registrado
 		if (array_key_exists('nombre_cientifico', $data)) {
 			$this->getFromName($data['nombre_cientifico']); //leemos el nombre por si existe, no añadir la planta de nuevo
-			
-			if ($data['id_planta'] == $this->id_planta || $this->id_planta =="") {  //si el nombre pertenece a la planta que quiero modificar, o no pertenece a nadie peudo continuar con el cambio. 
+
+			if ($data['id_planta'] == $this->id_planta || $this->id_planta == "") {  //si el nombre pertenece a la planta que quiero modificar, o no pertenece a nadie peudo continuar con el cambio. 
 				foreach ($data as $campo => $valor) :
 					$$campo = $valor;
 				endforeach;
@@ -150,12 +154,28 @@ class Planta extends DBAbstractModel
 			$this->msg = 'No se ha modificado la planta';
 		}
 	}
+	public function borrarFoto($id, $tipo)
+	{
+		$this->query = "
+	UPDATE plantas
+	SET " . $tipo . " = ''
+	WHERE id_planta = '" . $id . "'
+	";
+		//echo $this->query;
+		$this->execute_single_query();
+		if ($this->error == "") { //si no hay error
+			$this->msg = 'Foto borrada con éxito';
+		} else {
+			$this->msg = 'No se ha borrado la foto';
+		}
+	}
 	public function delete($id = '')
 	{
 		$this->query = "
 		DELETE FROM plantas
 		WHERE id_planta = '$id'
 		";
+		//echo $this->query;
 		$this->execute_single_query();
 		if ($this->error == "") //si no hay error
 			$this->msg = 'Planta ' . $id . ' eliminada con éxito';

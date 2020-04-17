@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
   //funciones para cambiar donde redirigen los formularios de alta de Usuarios y PLantas cuando se cancela la acción
-  //todos los formularios van ahora a gestión, con cancelar y con crear/modificar. Ya no hace falta
-  /* $("#cancelarUsuario").click(function () {
+  //todos los formularios van ahora a gestión, con cancelar y con crear/modificar. hace falta por los campos requeridps. NOOOO, que cancelar es un enlace
+  /*  $("#cancelarUsuario").click(function () {
     $("[name='formAltaUsuario']").attr('action', 'index.php?p=gu');
     $("[name='formAltaUsuario']").submit();
   });
@@ -10,7 +10,7 @@ $(document).ready(function () {
   $("#cancelarPlanta").click(function () {
     $("[name='formAltaPlanta']").attr('action', 'index.php?p=gp');
     $("[name='formAltaPlanta']").submit();
-  }); */
+  });  */
 
   //galería en el Home
   var swiper = new Swiper('#galeria-principal', {
@@ -35,7 +35,6 @@ $(document).ready(function () {
     loop: true
   });
 
-
   //galería en la ficha de planta: fotos descriptivas
   var galleryThumbs = new Swiper('.gallery-thumbs', {
     spaceBetween: 10,
@@ -59,16 +58,76 @@ $(document).ready(function () {
     },
   });
 
-
   //galería en la ficha de planta: fotos de usuarios
+  var swiper = new Swiper('#galeria-usuario', {
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+   spaceBetween: 20,
+    pagination: {
+      el: '.swiper-pagination',
+    },
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    loop: true
+  });
 
+  //borrado de fotos - AJAX
+  $('.botonBorrarFoto').click(function (e) {
 
-  //conexión AJAX
-  /* 
-  La confirmación del borrado de registros (plantas o usuarios) la quiero hacer con una ventana modal.
-  Con PHP no puedo pasar parámetros dentro de un formulario en una ventana modal y tengo que
-  usar JS. Necesito usar una conexión AJAX
-  */
+    e.preventDefault();
+
+    var id = $(this).attr('data-id');  //cojo la id de la foto/planta a borrar con el atributo data-id que tiene en enlace. Si es tipo ficha será a id de la planta, y si es galería será el id de la propia foto
+    var ruta = $(this).attr('data-ruta');  //cojo la id de la foto a borrar con el atributo data-ruta que tiene en enlace
+    var tipo = $(this).attr('data-tipo'); //cojo el tipo de foto (galeria de usuarios o si es de ficha de planta, si es general, hoja, etc) a borrar con el atributo data-tipo del enlace
+    var img = $(this).siblings('img');
+    var enlace = $(this);
+    var parametros = {
+      "id": id,
+      "ruta": ruta,
+      "tipo": tipo,
+      "borrFoto": true
+    };
+
+    bootbox.dialog({
+      message: "Vas a borrar la foto ¿Estás seguro?",
+      title: "<i class='fas fa-trash-alt'></i> ¡Atención!",
+      buttons: {
+        cancel: {
+          label: "No",
+          className: "btn-success",
+          callback: function () {
+            $('.bootbox').modal('hide');
+          }
+        },
+        confirm: {
+          label: "Eliminar",
+          className: "btn-danger",
+          callback: function () {
+
+            $.ajax({
+              url: './lib/functions.php',
+              method: 'post',
+              dataType: 'html',
+              data: parametros
+            })
+              .done(function (data) {
+                img.fadeOut('slow'); // No recargo la página con lo no recarga el php que muestra las filas, y necesito "eliminar" ese registro de la vista sin recargar
+                enlace.fadeOut('slow');
+                $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
+              })
+              .fail(function () {
+                bootbox.alert('Algo ha ido mal. No se ha podido completar la acción.');
+              })
+          }
+        }
+      }
+    });
+  }); //fin de la función de borrado de fotos
+
+  //borrado de registros - AJAX
   $('.botonBorrar').click(function (e) {
 
     e.preventDefault();
@@ -99,16 +158,14 @@ $(document).ready(function () {
           callback: function () {
 
             $.ajax({
-              //url: 'index.php?p=gu&b',
-              url: 'borrar.php',
+              url: './lib/functions.php',
               method: 'post',
               dataType: 'html',
               data: parametros
             })
-              //Si todo ha ido bien...
               .done(function (data) {
                 parent.fadeOut('slow'); // No recargo la página con lo no recarga el php que muestra las filas, y necesito "eliminar" ese registro de la vista sin recargar
-               $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
+                $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
               })
               .fail(function () {
                 bootbox.alert('Algo ha ido mal. No se ha podido completar la acción.');
@@ -117,7 +174,209 @@ $(document).ready(function () {
         }
       }
     });
+  }); //fin función de borrado de registros
+
+
+
+
+  //Ordenación de la colección de plantas - AJAX
+  $('.ordenar').each(function () {
+    $(this).click(function () {
+      var col = $(this).attr('data-col');
+      var order = "desc";
+      if ($(this).children("i").hasClass('fa-sort-up')) {
+        var order = "asc";
+      }
+      var parent = $(this).parents("thead");
+      //console.log(datos);  //ok
+
+      //cuando se clica uno de estos botones se cambia el icono de la flecha. Lo hago después de coger la variable para la ordenación que voy a mandar por AJAX
+      $(this).children("i").toggleClass('fa-sort-up');
+      $(this).children("i").toggleClass('fa-sort-down');
+
+      $.ajax({
+        url: './lib/functions.php',
+        method: 'post',
+        dataType: 'html',
+        data: {
+          'datos': datos,
+          "ordenar": true,
+          "col": col,
+          "order": order
+        }
+      })
+        .done(function (data) {
+          console.log("DATA" + data)
+          data2 = JSON.parse(data);
+          let text = "<tbody>";
+
+          for (let i = 0; i < data2.length; i++) {
+            let id = data2[i]["id_planta"];
+            let nCient = data2[i]["nombre_cientifico"];
+            let nCas = data2[i]["nombre_castellano"];
+            let nVal = data2[i]["nombre_valenciano"];
+            let familia = data2[i]["familia"];
+            let imagen = data2[i]["foto_general"];
+            if (imagen == "") {
+              imagen = "img/plantas/planta_default.jpg";
+            }
+
+            text += "<tr><td><a class='text-decoration-none text-white font-weight-bold' href='index.php?p=fp&f=" + id + "'>" + nCient + "</a></td>";
+            text += "<td>" + nCas + "</td>";
+            text += "<td>" + nVal + "</td>";
+            text += "<td>" + familia + "</td>";
+            text += "<td><a class='text-decoration-none text-white font-weight-bold' href='index.php?p=fp&f=" + id + "'><img width='75px' src='" + imagen + "'></td></tr>";
+          }
+          text += "</tbody>";
+          parent.siblings().fadeOut();
+          parent.next().after(text);
+        })
+        .fail(function () {
+          alert('Algo ha ido mal. No se ha podido completar la acción.');
+        })
+    });//fin funcion .click
+  }); //fin ordenar
+
+
+  /* $('#ordenarNC').click(function() {
+    alert( "pulsado" );
+  }); */
+
+
+  //validación formulario
+  /* $("#formAltaUsuario").submit(function () {
+    var expRegTexto = /^[A-Za-z \s]+$/; 
+    var expRegMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    var nombre;
+    var mail, pass;
+    
+    var OKnombre = false;
+   
+    nombre = $("#nombre_usuario").val();
+    mail = $("[name='email_usuario']").val();
+    $("#nombre_usuario + .text-danger").remove();  //quito los posibles mensajes de error
+    if (!nombre || nombre.length === 0 || nombre.trim() === "") { //si el campo no contiene nada se indica que está vacío bajo el input
+      $("#nombre_usuario").after("<div class='text-danger'>*Introduce nombre </div>");
+    } else if (expRegTexto.test(nombre)) { //si contiene algo se evalua con la expresión regular para el nombre
+      OKnombre = true;   //si es válido se setea a TRUE su variable booleana
+    } else {
+      $("#nombre_usuario").after("<div class='text-danger'>*Nombre no válido</div>");//si no es válido se indica bajo el input
+    }
+   
+    if (OKnombre) {
+      alert("que si")
+    } else {
+      alert("que no")
+      event.preventDefault(); //si falla la validación impido que se envíe el formulario
+    }
+   
+  });  */  //funciona, voy a probar con librería validate
+
+
+  //$("#formAltaUsuario").submit(function () { }).validate({
+  //$("#formAltaUsuario").validate({
+
+  $("form").each(function () {  //uso una función para validar todos los formularios, ya que los de alta y modificación van a compartir nombre de los input, y reglas
+    $(this).submit(function () { }).validate({
+      errorClass: "text-danger small border-danger",  //los mensajes de error aparecen en un span con class="error". Le añado clases de Bootstrap para modificar su estilo
+      rules: {
+        nombre_usuario: {  //se usa el "name" del input para definir las reglas y los mensajes asociados a esas reglas.
+          //required: true,  //si la regla está en el HTML no hace falta ponerla
+          existe: true,  //no haría falta en este caso, ya que por la regla minLetras no se va a validar si solo se añaden espacios en blanco, pero prefiero que me indique que no hay nombre si solo se añaden espacios en blanco y que reserve el mensaje de que hacen falta 3 caracteres para cuando hay al menos uno introducido
+          esTexto: true,
+          minlength: 3,
+          minLetras: 3
+        },
+        email_usuario: {
+          esEmail: true //no hace falta la regla "existe" porque el required de un email no se puede saltar ocn espacios en blanco
+        },
+        pass_usuario: {
+          checkMinus: true, //no hace falta la regla "existe" porque con las reglas para comprobar minúsculas, mayúsculas y dígito no se puede rellenar el campo con espacios en blanco
+          checkMayus: true,
+          checkDigit: true
+        },
+        nombre_cientifico: {
+          //required: true,  //si la regla está en el HTML no hace falta ponerla
+          existe: true,  //no haría falta en este caso, ya que por la regla minLetras no se va a validar si solo se añaden espacios en blanco, pero prefiero que me indique que no hay nombre si solo se añaden espacios en blanco y que reserve el mensaje de que hacen falta 3 caracteres para cuando hay al menos uno introducido
+          esTexto: true,
+          minlength: 3,
+          minLetras: 3
+        }
+      },
+      messages: {
+        nombre_usuario: {
+          required: "Introduce nombre",
+          existe: "Introduce nombre",
+          //minlength: "El nombre debe tener al menos {0} caracteres"
+        },
+        email_usuario: {
+          required: "Introduce email",
+          email: "El formato del email no es correcto." //mensaje para sobreescribir el mensaje de error a validación por type=email.
+        },
+        pass_usuario: {
+          required: "Introduce contraseña"
+        },
+        nombre_cientifico: {
+          required: "Introduce nombre científico"
+        }
+      }
+
+    });
   });
 
-})
 
+  //reglas para el validador
+  //el método existe es necesario para los campos tipo texto, porque el "required" de esos campos se puede saltar con espacios en blanco
+  $.validator.addMethod("existe",
+    function (value, element) {
+      return value.trim().length > 0;
+    }  //no pongo mensaje personalizado en esta regla porque va a depender del input
+  );
+  $.validator.addMethod("minLetras",
+    function (value, element) {
+      return value.trim().length > 2;
+    }, "El nombre debe tener al menos {0} letras"  //añado el mensaje a la regla y no hace falta especificarlo en la función validate(
+  );
+  $.validator.addMethod("esTexto",
+    function (value, element) {
+      return /^[A-Za-z \s]+$/.test(value);
+    },
+    "Solo admite letras"
+  );
+  $.validator.addMethod("esNombre",
+    function (value, element) {
+      return /^[A-Za-z \s]+$/.test(value);
+    },
+    "Ese caracter no está permitido"
+  );
+  $.validator.addMethod("esEmail",
+    function (value, element) {
+      return /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(value);
+    },
+    "El formato del email no es correcto."
+  );
+  $.validator.addMethod("checkMinus", function (value) {
+    return /[a-z]/.test(value);
+  },
+    "La contraseña debe tener una letra minúscula"
+  );
+  $.validator.addMethod("checkMayus", function (value) {
+    return /[A-Z]/.test(value);
+  },
+    "La contraseña debe tener una letra mayúscula"
+  );
+  $.validator.addMethod("checkDigit", function (value) {
+    return /[0-9]/.test(value);
+  },
+    "La contraseña debe tener un dígito"
+  );
+
+  $.validator.addClassRules({  //método para añadir un grupo de reglas a un grupo de elementos, que tienen una determinada clase
+    esCampoTexto: {
+      esTexto: true,
+      existe: true
+    }
+  });
+
+
+})//fin $(document).ready(function ()

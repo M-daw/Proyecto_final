@@ -20,7 +20,7 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
             <img class="card-img-bottom" src="img/lateral_formulario.png" alt="formulario">
         </div>
         <div class="card card-body col-lg-9 col-xl-8">
-            <form action="index.php?p=gu" method="POST" enctype="multipart/form-data" name="formModiusuario">
+            <form action="index.php?p=gu" method="POST" enctype="multipart/form-data" name="formModiusuario" id="formModiusuario">
     <!-- EL formulario redirige a la gestión de usuarios, tanto cuando se modifica como cuando se cancela -->
                 <input type="hidden" name="id_usuario" maxlength="10" size="40" <?php if (isset($id)) {
                                                                                     echo "value='$id'";
@@ -29,7 +29,7 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Nombre:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="nombre_usuario" maxlength="10" size="40" <?php if (isset($nombre)) {
+                        <input type="text" class="form-control rounded-pill" name="nombre_usuario" maxlength="30" required <?php if (isset($nombre)) {
                                                                                                                                 echo "value='$nombre'";
                                                                                                                             } ?>>
                     </div>
@@ -37,7 +37,7 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">E-mail</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="email_usuario" maxlength="40" size="40" <?php if (isset($email)) {
+                        <input type="email" class="form-control rounded-pill" name="email_usuario" maxlength="40" required <?php if (isset($email)) {
                                                                                                                                 echo "value='$email'";
                                                                                                                             } ?>>
                     </div>
@@ -45,7 +45,7 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Contraseña:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="pass_usuario" size="40" maxlength="15" <?php if (isset($pass)) {
+                        <input type="text" class="form-control rounded-pill" name="pass_usuario" minsize="6" maxlength="16" required <?php if (isset($pass)) {
                                                                                                                                 echo "value='$pass'";
                                                                                                                             } ?>>
                     </div>
@@ -69,7 +69,8 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
                         <input type="submit" class="form-control rounded-pill bg-success text-white" value="Modificar Usuario" name="modifUser">
                     </div>
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
-                            <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" name="cancelar">
+                            <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" name="cancelar"> -->
+                            <button class="form-control rounded-pill btn btn-success"><a href="index.php?p=gu" class="text-decoration-none text-white">Cancelar</a></button>
                     </div>
                 </div>
             </form>

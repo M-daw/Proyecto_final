@@ -1,95 +1,250 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 /* ########### Estructura ########### */
-body{
-  background-image: url("../img/fondo_m.jpg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-color: #cff0c2;
-  background-size: cover;
-  /*height: 100vh;*//*si tengo fixed no hace falta?*/
+body {
+	background-image: url("../img/fondo_m.jpg");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed; /*si tengo fixed no hace falta darle height para que se vea la imagen de background*/
+	background-color: #cff0c2;
+	background-size: cover;
 }
-main{
-  min-height: 86vh; /*mirar de ponerlo como clase de bootstrap min-100-vh*/
+
+main {
+	min-height: 78vh;   /*para que no quede el footer en medio de la pantalla cuando hay poco contenido*/
+}
+
+div.row>div:nth-child(3) {
+	margin-top: auto;
 }
 
 /* ########### Footer ########### */
-footer div:first-of-type{
-  background-image: url("../img/cenefa_footer.png");
-  background-repeat:repeat-x;
-  background-position: bottom center;
-  height: 75px;
-} 
+footer div:first-of-type {
+	background-image: url("../img/cenefa_footer.png");
+	background-repeat: repeat-x;
+	background-position: bottom center;
+	height: 75px;
+}
 
 /* ########### Tablas ########### */
-.grad{
-  background-image: linear-gradient(90deg, green, #cff0c2);
-  padding: 25px;
-}
-tr th:first-child, tr td:first-child{
-  padding-left: 2rem !important;
-}
-th:last-child, tr td:last-child{
-  padding-right: 2rem !important;
+.grad {
+	background-image: linear-gradient(90deg, green, #cff0c2);
 }
 
-#ficha{
-  border: 30px solid transparent;
-  border-top-width: 120px;
-  border-image: url("../img/fondo_ficha.png") 250 50 50 50 round;
-  background-image: url("../img/fondo_ficha.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-color: #cff0c2;
-  background-size: cover;
-  background-clip: padding-box;
+tr th:first-child, tr td:first-child {
+	padding-left: 2rem !important;
 }
+
+th:last-child, tr td:last-child {
+	padding-right: 2rem !important;
+}
+
+#ficha {
+	border: 30px solid transparent;
+	border-top-width: 120px;
+	border-image: url("../img/fondo_ficha.png") 250 50 50 50 round;
+	background-image: url("../img/fondo_ficha.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-color: #cff0c2;
+	background-size: cover;
+	background-clip: padding-box;
+}
+
 /* ########### Estilo de las galerías ########### */
-#galeria-principal .swiper-slide {
-  background-position: center;
-  background-size: cover;
-  max-width: 400px;
-  min-height: 300px;
+#galeria-principal .swiper-slide, #galeria-usuario .swiper-slide {
+	width: calc(60vw);
+	height: calc(60vw * 0.75);
 }
+
 #galeria-planta {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
+	width: 100%;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
 }
-#galeria-planta .swiper-slide {
-  background-size: cover;
-  background-position: center;
+
+.swiper-slide {
+	background-size: cover;
+	background-position: center;
 }
+
+.swiper-pagination-bullet-active {
+	background-color: green !important;
+}
+
 .gallery-top {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
+
 .gallery-thumbs {
-  height: auto;
-  padding: 10px 0;
+	height: auto;
+	padding: 10px 0;
 }
+
 .gallery-thumbs .swiper-slide {
-  opacity: 0.4;
+	opacity: 0.4;
 }
+
 .gallery-thumbs .swiper-slide-thumb-active {
-  opacity: 1;
+	opacity: 1;
 }
+
+/* ########### Animación pájaros ########### */
+.cont-pajaros {
+	min-height: 35rem;
+	/*background-color: rgb(207, 240, 194, 1);  /*si uso jumbotron, poner !important, porque lleva bg por defecto*/
+	/*background-image: linear-gradient(to bottom,  rgba(174, 248, 144, 0.2) 0%,rgba(13, 255, 106, 0.4) 100%), url('../img/sierra_de_crevillente.jpg');
+	/*background-image: linear-gradient(to bottom,  rgba(255,168,76,0.6) 0%,rgba(255,123,13,0.6) 100%), url('https://images.unsplash.com/photo-1446824505046-e43605ffb17f');*/
+	background-image: url('../img/sierra_de_crevillente.jpg');
+	background-blend-mode: multiply;
+	background-size: cover;
+	background-position: center center;
+}
+
+.pajaro {
+	background-image: url('../img/anim_pajaro.svg');
+	background-size: auto 100%;
+	width: 88px;
+	height: 125px;
+	will-change: background-position;
+	animation-name: vuelo;
+	animation-timing-function: steps(10);
+	animation-iteration-count: infinite;
+}
+
+.pajaro--uno {
+	animation-duration: 1s;
+	animation-delay: -0.5s;
+}
+
+.pajaro--dos {
+	animation-duration: 0.9s;
+	animation-delay: -0.75s;
+}
+
+.pajaro--tres {
+	animation-duration: 1.25s;
+	animation-delay: -0.25s;
+}
+
+.pajaro--cuatro {
+	animation-duration: 1.1s;
+	animation-delay: -0.5s;
+}
+
+.pajaro-cont {
+	position: absolute;
+	top: 20%;
+	left: -10%;
+	transform: scale(0) translateX(-10vw);
+	will-change: transform;
+	animation-name: volar-desplazamiento;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.pajaro-cont--uno {
+	animation-duration: 15s;
+	animation-delay: 0;
+}
+
+.pajaro-cont--dos {
+	animation-duration: 16s;
+	animation-delay: 1s;
+}
+
+.pajaro-cont--tres {
+	animation-duration: 14.6s;
+	animation-delay: 9.5s;
+}
+
+.pajaro-cont--cuatro {
+	animation-duration: 16s;
+	animation-delay: 10.25s;
+}
+
+@keyframes vuelo {
+	100% {
+		background-position: -900px 0;
+	}
+}
+
+@keyframes volar-desplazamiento {
+	0% {
+		transform: scale(0.3) translateX(-10vw);
+	}
+
+	10% {
+		transform: translateY(2vh) translateX(10vw) scale(0.4);
+	}
+
+	20% {
+		transform: translateY(0vh) translateX(30vw) scale(0.5);
+	}
+
+	30% {
+		transform: translateY(4vh) translateX(50vw) scale(0.6);
+	}
+
+	40% {
+		transform: translateY(2vh) translateX(70vw) scale(0.6);
+	}
+
+	50% {
+		transform: translateY(0vh) translateX(90vw) scale(0.6);
+	}
+
+	60% {
+		transform: translateY(0vh) translateX(110vw) scale(0.6);
+	}
+
+	100% {
+		transform: translateY(0vh) translateX(110vw) scale(0.6);
+	}
+}
+
 
 /* ########### Cambios responsivos ########### */
 @media screen and (min-width: 768px) {
-  body{
-    background-image: url("../img/fondo_d.jpg");
-  }
-  
+	body {
+		background-image: url("../img/fondo_d.jpg");
+	}
+
+	div.row.portada>div:nth-child(3) {
+		margin-top: auto;
+	}
+
+	#galeria-principal .swiper-slide,
+	#galeria-usuario .swiper-slide {
+		width: calc(40vw);
+		height: calc(40vw * 0.75);
+	}
+}
+
+@media screen and (min-width: 992px) {
+	/*tomo breakpoints de Bootstrap. */
+	div.row.portada>div:nth-child(3) {
+		margin-top: -275px;
+	}
+
+	#galeria-principal .swiper-slide,
+	#galeria-usuario .swiper-slide {
+		width: calc(30vw);
+		height: calc(30vw * 0.75);
+	}
 }
 
 @media screen and (min-width: 1200px) {
- 
+	#galeria-principal .swiper-slide,
+	#galeria-usuario .swiper-slide {
+		width: calc(20vw);
+		height: calc(20vw * 0.75);
+	}
 }

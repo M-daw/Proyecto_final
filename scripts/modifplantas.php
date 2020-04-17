@@ -38,9 +38,9 @@ $categorias = $planta->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Nombre científico:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="nombre_cientifico" maxlength="100" <?php if (isset($nombre_cientifico)) {
-                                                                                                                            echo "value='$nombre_cientifico'";
-                                                                                                                        } ?>></div>
+                        <input type="text" class="form-control rounded-pill" name="nombre_cientifico" maxlength="100" required <?php if (isset($nombre_cientifico)) {
+                                                                                                                                    echo "value='$nombre_cientifico'";
+                                                                                                                                } ?>></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Nombre en castellano:</label>
@@ -66,14 +66,14 @@ $categorias = $planta->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Familia:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="familia" maxlength="30" <?php if (isset($familia)) {
-                                                                                                                echo "value='$familia'";
-                                                                                                            } ?>></div>
+                        <input type="text" class="form-control rounded-pill" name="familia" maxlength="30" required <?php if (isset($familia)) {
+                                                                                                                        echo "value='$familia'";
+                                                                                                                    } ?>></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Caracteres diagnósticos:</label>
                     <div class="col-md-10">
-                        <textarea name="caracteres_diagnosticos" class="form-control" rows="8">
+                        <textarea name="caracteres_diagnosticos" class="form-control" rows="8" required>
                         <?php if (isset($caracteres_diagnosticos)) {
                             echo $caracteres_diagnosticos;
                         } ?>
@@ -82,7 +82,7 @@ $categorias = $planta->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Uso:</label>
                     <div class="col-md-10">
-                        <textarea name="uso" class="form-control" rows="4" cols="40">
+                        <textarea name="uso" class="form-control" rows="4">
                         <?php if (isset($uso)) {
                             echo $uso;
                         } ?>
@@ -141,46 +141,55 @@ $categorias = $planta->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto general:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_general" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_general" maxlength="50" accept="image/gif, image/jpeg, image/png">
                         <!-- como los input tipo file no puedo pasarle datos a su value se muestra una miniatura si ya tiene una imagen subida -->
                         <img width="75px" src="<?php if (isset($foto_general)) {
                                                     echo $foto_general;
-                                                } else {
-                                                    echo '#';
                                                 } ?>">
+                        <?php if ($foto_general != "") {
+                            echo "<a href='javascript:void(0)' class='text-success botonBorrarFoto' data-ruta='" . $foto_general . "' data-tipo='foto_general' data-id='" . $id_planta . "'><i class=\"fas fa-times mr-1 ml-3\"></i> Eliminar foto</a>";
+                        }
+                        ?>
+                        </td>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto de la flor:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_flor" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_flor" maxlength="50" accept="image/gif, image/jpeg, image/png">
                         <img width="75px" src="<?php if (isset($foto_flor)) {
                                                     echo $foto_flor;
-                                                } else {
-                                                    echo '#';
                                                 } ?>">
+                        <?php if ($foto_flor != "") {
+                            echo "<a href='javascript:void(0)' class='text-success botonBorrarFoto' data-ruta='" . $foto_flor . "' data-tipo='foto_flor' data-id='" . $id_planta . "'><i class=\"fas fa-times mr-1 ml-3\"></i> Eliminar foto</a>";
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto de la hoja:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_hoja" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_hoja" maxlength="50" accept="image/gif, image/jpeg, image/png">
                         <img width="75px" src="<?php if (isset($foto_hoja)) {
                                                     echo $foto_hoja;
-                                                } else {
-                                                    echo '#';
                                                 } ?>">
+                        <?php if ($foto_hoja != "") {
+                            echo "<a href='javascript:void(0)' class='text-success botonBorrarFoto' data-ruta='" . $foto_hoja . "' data-tipo='foto_hoja' data-id='" . $id_planta . "'><i class=\"fas fa-times mr-1 ml-3\"></i>Eliminar foto</a>";
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Foto del fruto:</label>
                     <div class="col-md-10">
-                        <input type="file" class="" name="foto_fruto" maxlength="50" accept="image/gif, image/jpeg, image/png">
+                        <input type="file" class="form-control-file" name="foto_fruto" maxlength="50" accept="image/gif, image/jpeg, image/png">
                         <img width="75px" src="<?php if (isset($foto_fruto)) {
                                                     echo $foto_fruto;
-                                                } else {
-                                                    echo '#';
                                                 } ?>">
+                        <?php if ($foto_fruto != "") {
+                            echo "<a href='javascript:void(0)' class='text-success botonBorrarFoto' data-ruta='" . $foto_fruto . "' data-tipo='foto_fruto' data-id='" . $id_planta . "'><i class=\"fas fa-times mr-1 ml-3\"></i> Eliminar foto</a>";
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -188,8 +197,8 @@ $categorias = $planta->getSQLEnumArray('plantas', 'cat_UICN');
                                                                                     echo "value='$id_usuario'";
                                                                                 } ?>>
                 <input type="hidden" name="id_planta" maxlength="11" <?php if (isset($id_planta)) {
-                                                                                    echo "value='$id_planta'";
-                                                                                } ?>>
+                                                                            echo "value='$id_planta'";
+                                                                        } ?>>
 
                 <div class="form-group row">
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">

@@ -1,9 +1,9 @@
 <?php
-require("header.php");
+require("scripts/header.php");
 ?>
 
 <main>
-    <div class="container pt-3">
+    <!--<div class="container pt-3"> -->
         <?php
         $msg = "";
         $error = "";
@@ -14,39 +14,39 @@ require("header.php");
 
         if ($opcion == "ini") {
             $actual = "INICIO";
-            $pagina = "home.php";
+            $pagina = "scripts/home.php";
         }
         if ($opcion == "col") {
             $actual = "COLECCIÓN";
-            $pagina = "coleccion.php";
+            $pagina = "scripts/coleccion.php";
         }
         if ($opcion == "gp") {
             $actual = "GESTIÓN PLANTAS";
-            $pagina = "gestionplantas.php";
+            $pagina = "scripts/gestionplantas.php";
         }
         if ($opcion == "gu") {
             $actual = "GESTIÓN USUARIOS";
-            $pagina = "gestionusuarios.php";
+            $pagina = "scripts/gestionusuarios.php";
         }
         if ($opcion == "au") {
             $actual = "ALTA USUARIOS";
-            $pagina = "altausuarios.php";
+            $pagina = "scripts/altausuarios.php";
         }
         if ($opcion == "ap") {
             $actual = "ALTA PLANTAS";
-            $pagina = "altaplantas.php";
+            $pagina = "scripts/altaplantas.php";
         }
         if ($opcion == "mu") {
             $actual = "MODIFICACIÓN USUARIOS";
-            $pagina = "modifusuarios.php";
+            $pagina = "scripts/modifusuarios.php";
         }
         if ($opcion == "mp") {
             $actual = "MODIFICACIÓN PLANTAS";
-            $pagina = "modifplantas.php";
+            $pagina = "scripts/modifplantas.php";
         }
         if ($opcion == "fp") {
             $actual = "FICHA PLANTA";
-            $pagina = "fichaplanta.php";
+            $pagina = "scripts/fichaplanta.php";
         }
 
 
@@ -76,8 +76,8 @@ require("header.php");
                 ?>
             </div>
         </div>
-    </div><!-- fin container -->
+    <!-- </div>  --> <!-- fin container -->
 </main>
 <?php
-require_once("footer.php");
+require_once("scripts/footer.php");
 ?>
