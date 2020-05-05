@@ -43,51 +43,63 @@ if ($error === "") {
 
             <?php
             $usuario->get(); //este código es de los ejercicios modelo
-            if (count($usuario->get_rows()) > 0) {
+            if (count($usuario->get_rows()) > 0) :
             ?>
                 <thead>
                     <tr>
                         <?php
                         //el contenedor y la tabla se dejan fuera del if..else, para poder contener el botón de crear usuarios, que tiene que estar siempre disponible
                         $datos = $usuario->get_rows();
-                        foreach ($datos as $indice => $fila) {
-                            if ($indice == 0) { //solo pone las cabeceras la primera vuelta
-                                foreach ($fila as $indice => $valor) { //como no tengo acentos tomo las cabeceras de los nombres de las columnas de mi tabla
-                                    echo "<th class=\"pt-4\">";
-                                    echo str_replace("_usuario", "", $indice);
-                                    echo "</th>\n";
-                                }
-                        ?>
-                                <th>borrar</th>
+                        foreach ($datos as $indice => $fila) :
+                            if ($indice == 0) :
+                                //solo pone las cabeceras la primera vuelta. Como no tengo acentos tomo las cabeceras de los nombres de las columnas de mi tabla
+                                foreach ($fila as $indice => $valor) : ?>
+                                    <th class="pt-4">
+                                        <?php echo str_replace("_usuario", "", $indice); ?>
+                                    </th>
+                                <?php endforeach; ?>
                                 <th>modif.</th>
+                                <th>borrar</th>
+                            <?php endif; ?>
                     </tr>
                 </thead>
-    <?php
-                            }
-                            echo "<tr>\n";
-                            echo "<td>" . $fila['id_usuario'] . "</td>\n<td>" . $fila['nombre_usuario'] . "</td>\n<td>" .
-                                $fila['email_usuario'] . "</td>\n<td>" . $fila['pass_usuario'] . "</td>\n<td> " .
-                                $fila['tipo_usuario'] . "</td>\n";
-                            //echo "<a href='index.php?p=gu&b={$fila['id_usuario']}'><i class=\"fas fa-user-times text-success\"></i> </a></td>";  //"botón" cuando se borraba en esta misma página
-                            //con el nuevp "botón" para borrar llamo a un modal que muestra la confirmación del borrado. Uso la librería bootbox de JQuery para construirlo. Necesito hacer una llamada AJAX y el borrado debe estar en otro archivo php, en este caso, en el que contiene las funciones
-                            echo "<td class=\"text-center\"><a href='javascript:void(0)' class='botonBorrar' data-tipo ='usuario' data-id='{$fila['id_usuario']}'><i class=\"fas fa-user-times text-success\"></i></a></td>\n";
-                            echo "<td class=\"text-center\"><a href='index.php?p=mu&m={$fila['id_usuario']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>\n";
-                            echo "</tr>\n";
-                        }
-                    } else {
+
+                <tr>
+                    <td><?= $fila['id_usuario'] ?></td>
+                    <td><?= $fila['nombre_usuario'] ?></td>
+                    <td><?= $fila['email_usuario'] ?></td>
+                    <td><?= $fila['pass_usuario'] ?></td>
+                    <td> <?= $fila['tipo_usuario'] ?></td>
+                    <!-- <a href="index.php?p=gu&b=<?= $fila[' id_usuario'] ?>"><i class="fas fa-user-times text-success"></i> </a></td> "botón" cuando se borraba en esta misma página -->
+                    <!--con el nuevp "botón" para borrar llamo a un modal que muestra la confirmación del borrado. Uso la librería bootbox de JQuery para construirlo. Necesito hacer una llamada AJAX y el borrado debe estar en otro archivo php, en este caso, en el que contiene las funciones -->
+
+                    <td class="text-center"><a href="index.php?p=mu&m=<?= $fila['id_usuario'] ?>"><i class="fas fa-user-edit text-success"></i> </a></td>
+                    <?php
+                            if ($id_usuarioS != $fila['id_usuario']) : ?>
+                        <td class="text-center"><a href="javascript:void(0)" class="botonBorrar" data-tipo="usuario" data-id="<?= $fila['id_usuario'] ?>"><i class="fas fa-user-times text-success"></i></a></td>
+                    <?php else : ?>
+                        <td></td>
+                    <?php endif; ?>
+
+                </tr>
+        <?php
+                        endforeach;
+                    else :
                         $msg = "NO HAY USUARIOS";
-                    }
+                    endif;
                     //el botón para crear usuarios tiene que estar siempre disponible, cuando hay y cuando no hay usuarios. Se saca del if..else
-    ?>
-    <thead>
-        <tr>
-            <td colspan="<?= count($fila) + 2 ?>" class="pb-4">
-                <form action='index.php?p=au' method='POST'>
-                    <button type='submit' value='Alta usuarios' name='altausuarios' class="btn btn-outline-success bg-light px-2"> <i class="fas fa-user-plus px-\"></i> Alta usuarios</button>
-                </form>
-            </td>
-        </tr>
-    </thead>
+        ?>
+        <thead>
+            <tr>
+                <td colspan="<?= count($fila) + 2 ?>" class="pb-4">
+                    <form action="index.php?p=au" method="POST">
+                        <button type="submit" class="btn btn-outline-success bg-light px-2">
+                            <i class="fas fa-user-plus px-\" name="altausuarios" value="Alta usuarios"></i> Alta usuarios
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </thead>
         </table>
     </div>
 <?php

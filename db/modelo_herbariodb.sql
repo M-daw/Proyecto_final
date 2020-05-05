@@ -44,7 +44,7 @@ CREATE TABLE `imagenes` (
 CREATE TABLE `plantas` (
   `id_planta` int(11) NOT NULL,
   `nombre_cientifico` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
-  `nombre_castelllano` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nombre_castellano` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nombre_valenciano` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nombre_ingles` varchar(30) COLLATE latin1_spanish_ci DEFAULT NULL,
   `familia` varchar(30) COLLATE latin1_spanish_ci NOT NULL,

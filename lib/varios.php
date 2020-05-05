@@ -3,9 +3,9 @@
 function dibuja_select($nomSel, $datos, $campo1, $activo = "", $campo2 = "", $campo3 = "", $todos = false)
 {
    $html = "";
-   $html .= "<select name='$nomSel'>\n";
+   $html .= "<select name='$nomSel' class='form-control rounded-pill'>\n";
    if ($todos)
-      $html .= "<option value='Todas'>Todas</option>\n";
+      $html .= "<option value=''>Todas</option>\n";  //modifico la función, para la búsqueda tiene que ser ''
    $cuantas = count($datos);
    if ($cuantas > 0) {
       for ($cont = 0; $cont < $cuantas; $cont++) {

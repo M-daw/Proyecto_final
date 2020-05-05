@@ -1,17 +1,30 @@
 <?php
 define("TAM_MAX__FILES", 700000);
-$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
+
+//en local
+/*$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
 require $raiz . "/Proyecto/clases/db_abstract_model.php";
 require $raiz . "/Proyecto/clases/usuarios_model.php";
 require $raiz . "/Proyecto/clases/plantas_model.php";
 require $raiz . "/Proyecto/clases/imagenes_model.php";
+/*
+//en host
+require "./clases/db_abstract_model.php";
+require "./clases/usuarios_model.php";
+require "./clases/plantas_model.php";
+require "./clases/imagenes_model.php";
+*/
 
+require "clases/db_abstract_model.php";
+require "clases/usuarios_model.php";
+require "clases/plantas_model.php";
+require "clases/imagenes_model.php";
 //Función para subir las imágenes al servidor y obtener su ruta
 function subirImagen($nombre, $subdir = "")
 {
-    if($subdir == "galeria"){
+    if ($subdir == "galeria") {
         $destino = "./img/plantas/galerias/";
-    }else{
+    } else {
         $destino = "./img/plantas/";
     }
 
@@ -25,13 +38,13 @@ function subirImagen($nombre, $subdir = "")
         if (in_array($_FILES[$nombre]["type"], $tiposValidos)) {
             //controla el tamaño del _FILES[]
             if ($_FILES[$nombre]["size"] <= TAM_MAX__FILES) {
-                if (is_uploaded_file($_FILES[$nombre]['tmp_name'])){
-                    if(move_uploaded_file($_FILES[$nombre]['tmp_name'], $archivo)){
+                if (is_uploaded_file($_FILES[$nombre]['tmp_name'])) {
+                    if (move_uploaded_file($_FILES[$nombre]['tmp_name'], $archivo)) {
                         return $archivo;
-                    }else{
+                    } else {
                         return "";  //si falla, devuelve campo vacío
-                    }   
-                }          
+                    }
+                }
             } else {
                 echo "No puedes subir imágenes mayores de " . TAM_MAX__FILES;
                 return $_FILES[$nombre]['name'];
@@ -40,8 +53,7 @@ function subirImagen($nombre, $subdir = "")
             echo "La imagen tiene un tipo no valido";
             return $_FILES[$nombre]['name'];
         }
-    } 
-    else {
+    } else {
         return $_FILES[$nombre]['name'];
     }
 }
@@ -75,50 +87,117 @@ function array_sort_by(&$array, $col, $order = SORT_ASC)
 }
 
 
-//función para borrar registros. Se le envían los parámetros por AJAX
+//llamadas a métodos para borrar registros o fotos. Reciben los parámetros por AJAX
 if (isset($_POST['borrSI'])) {
     if (($_POST['tipo']) == "usuario") {
         $borrable = new Usuario();
     } else if (($_POST['tipo']) == "planta") {
         $borrable = new Planta();
     }
-    $borrable->delete($_POST['id']);
+    $borrable->delete($_POST['id']);  //llamo a sus respectivos métodos
     $error = $borrable->error;
     $msg = $borrable->msg;
     echo $borrable->error . $borrable->msg;
 }
 
 if (isset($_POST['borrFoto'])) {
-    $ruta = $_POST["ruta"]; //hay que volver a definirla. La página recarga y no se guarda la variable 
+    //var_dump($_POST);
     $tipo = $_POST["tipo"];
-    $id = $_POST["id"];
+    $ruta = $_POST["ruta"]; //hay que volver a definirla. La página recarga y no se guarda la variable 
+    if ($tipo != "galeria") {
+        $id = $_POST["id"];
+    } else {
+        $ids =  explode(",", $_POST["id"]); //las ids estan en un string
+    }
+
     $msg = "";
     $error = "";
-    $raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
-    $borrar =  "$raiz/Proyecto/$ruta";
-    if (file_exists($borrar)) {
-        if (unlink($borrar)) { //borro la imagen del servidor
-            $msg = "Se ha borrado la foto";
-        } else {
-            $error = "No se ha podido borrar la foto";
-        }
-    }
-    //y elimino la imagen de la base de datos
+
     if ($tipo != "galeria") {
+        //$borrar =  "$raiz/Proyecto/$ruta";
+        $borrar =  $ruta;
+        if (file_exists($borrar)) {
+            if (unlink($borrar)) { //borro la imagen del servidor
+                $msg .= "Se ha borrado la foto";
+            } else {
+                $error .= "No se ha podido borrar la foto";
+            }
+        }
+        //y elimino la imagen de la base de datos, llamando a su método (de planta)
         $planta = new Planta();
         $planta->borrarFoto($id, $tipo);
     } else {
-        //aquí se creará una new Imagen
+        //si es de galería se borra de la tabla de Imágenes
+        foreach ($ids as $id) {
+            $imagen = new Imagen();
+            $imagen->get($id);
+            $ruta = $imagen->enlace_imagen;
+            //$borrar =  "$raiz/Proyecto/$ruta";
+            $borrar =  $ruta;
+            if (file_exists($borrar)) {
+                if (unlink($borrar)) { //borro la imagen del servidor
+                    $msg .= "Se ha borrado la foto del servidor \n";
+                } else {
+                    $error .= "No se ha podido borrar la foto \n";
+                }
+            }
+            $imagen->delete($id);
+            $msg .= $imagen->msg . " de la base de datos \n";
+            $error .= $imagen->error;
+        }
     }
-
-    echo $error . $msg;
+    echo $error . $msg;  //devuelvo el mensaje o el error a la función de JS para que la imprima en pantalla.
 }
 
 
+/**
+ * funciones que llama a los métodos getAuthor y getSciName de la clase Imagen.
+ * 
+ * Estas funciones no son estrictamente necesarias, pero, aunque no estoy usando vistas y
+ * controladores separados, he intentado mantener la lógica separada de las "vistas" dentro
+ * de mis scripts php. 
+ * Necesitaba crear una nueva Imagen en las galerías que se crean con los scripts borrarimage.phh 
+ * y galeriausuarios.php para evitar que fuese sumando filas de resultados a la Imagen creada
+ * previemente en esos archivos, que es la que contiene el resultado de la búsqueda de imágenes dada
+ * una id de planta o de usuario, y quería evitar ese código en la parte "vista" de mi script.
+ */
+
+function obtenerAutor($id_imagen)
+{
+    $aux = new Imagen();
+    $aux->getAuthor($id_imagen);
+    return $aux->nombre_usuario;
+}
+
+function obtenerNombreCi($id_imagen)
+{
+    $aux = new Imagen();
+    $aux->getSciName($id_imagen);
+    return $aux->nombre_cientifico;
+}
+
+/**
+ * Función para sustituir al get_result() en el objeto $stmt, ya que no funciona en el host
+ */
+function fetchAssocStatement($stmt)
+{
+    if($stmt->num_rows>0)
+    {
+        $result = array();
+        $md = $stmt->result_metadata();
+        $params = array();
+        while($field = $md->fetch_field()) {
+            $params[] = &$result[$field->name];
+        }
+        call_user_func_array(array($stmt, 'bind_result'), $params);
+        if($stmt->fetch())
+            return $result;
+    }
+    return null;
+}
 
 
-
-class JsonHandler
+/*class JsonHandler
 {
     // Array con los mensajes de error
     protected static $mensajes = array(
@@ -129,7 +208,7 @@ class JsonHandler
         JSON_ERROR_SYNTAX         => 'Error de sintaxis',
         JSON_ERROR_UTF8           => 'Caracteres UTF-8 mal formados, posiblemente incorrectamente codificado'
     );
-    // Codificar
+    // Función para Codificar
     public static function encode($value, $options = 0)
     {
         $result = json_encode($value, $options);
@@ -138,7 +217,7 @@ class JsonHandler
         }
         throw new RuntimeException(static::$mensajes[json_last_error()]);
     }
-    // Decodificar
+    // Función para decodificar
     public static function decode($json, $assoc = false)
     {
         $result = json_decode($json, $assoc);
@@ -147,4 +226,4 @@ class JsonHandler
         }
         throw new RuntimeException(static::$mensajes[json_last_error()]);
     }
-}
+}*/

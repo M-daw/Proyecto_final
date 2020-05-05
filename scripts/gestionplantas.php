@@ -110,55 +110,61 @@ if ($error === "") {
             <?php
             //el contenedor y la tabla se dejan fuera del if..else, para poder contener el botón de crear plantas, que tiene que estar siempre disponibles
             $planta->get();  //este código es de los ejercicios modelo
-            if (count($planta->get_rows()) > 0) {
-            ?>
+            if (count($planta->get_rows()) > 0) : ?>
                 <thead>
                     <tr>
                         <?php
                         $datos = $planta->get_rows();
-                        foreach ($datos as $indice => $fila) {
-                            if ($indice == 0) { //solo se ponen las cabeceras la primera vuelta. Se escriben por los acentos
-                                echo "<th class=\"pt-4\">";
-                                echo "Id </th>\n<th>Nombre científico</th>\n<th>Nombre castellano</th>\n<th>Nombre valenciano </th>\n<th>Familia";
-                                echo "</th>";
-
-                                //solo los usuarios de tipo Administrador pueden borrar plantas de la base de datos
-                                if ($tipoS == "Administrador") {
-                        ?>
-                                <th>borrar</th>
-                                <?php
-                    }
-                    ?>        
+                        foreach ($datos as $indice => $fila) :
+                            //solo se ponen las cabeceras la primera vuelta. Se escriben a mano porque los nombres de las columnas en las tablas no tienen acentos
+                            if ($indice == 0) : ?>
+                                <th class="pt-4">Id</th>
+                                <th>Nombre científico</th>
+                                <th>Nombre castellano</th>
+                                <th>Nombre valenciano</th>
+                                <th>Familia</th>
                                 <th>modif.</th>
+                                <?php
+                                //solo los usuarios de tipo Administrador pueden borrar plantas de la base de datos
+                                if ($tipoS == "Administrador") : ?>
+                                    <th>borrar</th>
+                                <?php endif; ?>          
+                            <?php endif; ?>
                     </tr>
                 </thead>
-    <?php
-                            }
-                            echo "<tr>\n";
-                            echo "<th>" . $fila['id_planta'] . "</th>\n<th>" . $fila['nombre_cientifico'] . "</th>\n<td>" .
-                                $fila['nombre_castellano'] . "</td>\n<td>" . $fila['nombre_valenciano'] . "</td>\n<td> " .
-                                $fila['familia'] . "</td>\n";
-                            if ($tipoS == "Administrador") {
-                                //echo "<a href='index.php?p=gp&b={$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i> </a></td>";  //"botón" cuando se borraba en esta misma página
-                                echo "<td class=\"text-center\"><a href='javascript:void(0)' class='botonBorrar' data-tipo ='planta' data-id='{$fila['id_planta']}'><i class=\"fas fa-user-times text-success\"></i></a></td>\n";
-                            }
-                            echo "<td class=\"text-center\"><a href='index.php?p=mp&m={$fila['id_planta']}'><i class=\"fas fa-user-edit text-success\"></i> </a></td>\n";
-                            echo "</tr>\n";
-                        }
-                    } else {
+
+                <tr>
+                    <th><?= $fila['id_planta'] ?></th>
+                    <th><?= $fila['nombre_cientifico'] ?></th>
+                    <td><?= $fila['nombre_castellano'] ?></td>
+                    <td><?= $fila['nombre_valenciano'] ?></td>
+                    <td><?= $fila['familia'] ?></td>
+                    <td class="text-center"><a href="index.php?p=mp&m=<?= $fila['id_planta'] ?>"><i class="fas fa-user-edit text-success"></i> </a></td>
+                    <?php
+                            if ($tipoS == "Administrador") :  ?>
+                        <!-- <a href="index.php?p=gp&b=<?= $fila['id_planta'] ?>"><i class="fas fa-user-times text-success"></i></a></td>  botón" cuando se borraba en esta misma página -->
+                        <td class="text-center"><a href='javascript:void(0)' class="botonBorrar" data-tipo="planta" data-id="<?= $fila['id_planta'] ?>"><i class="fas fa-user-times text-success"></i></a></td>
+
+                    <?php endif; ?>
+                </tr>
+        <?php
+                        endforeach;
+                    else :
                         $msg = "NO HAY PLANTAS";
-                    }
+                    endif;
                     //el botón para crear plantas tiene que estar siempre disponible. Se saca del if..else
-    ?>
-    <thead>
-        <tr>
-            <td colspan="<?= count($fila) + 2 ?>" class="pb-4">
-                <form action='index.php?p=ap' method='POST'>
-                    <button type='submit' value='Alta Plantas' name='altaplantas' class="btn btn-outline-success bg-light px-2"> <i class="fas fa-user-plus px-\"></i> Alta plantas</button>
-                </form>
-            </td>
-        </tr>
-    </thead>
+        ?>
+        <thead>
+            <tr>
+                <td colspan="<?= count($fila) + 2 ?>" class="pb-4">
+                    <form action="index.php?p=ap" method="POST">
+                        <button type="submit" class="btn btn-outline-success bg-light px-2" name="altaplantas" value="Alta Plantas">
+                            <i class="fas fa-user-plus px-\"></i> Alta plantas
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </thead>
         </table>
     </div>
 

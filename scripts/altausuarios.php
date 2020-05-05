@@ -20,7 +20,7 @@ $tipos = $aux->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de usuar
         </div>
         <div class="card card-body col-lg-9 col-xl-8">
             <!-- <form action="index.php?p=au" method="POST" enctype="multipart/form-data" name="formAltaUsuario" class="pt-5"> -->
-            <!-- EL formulario redirige a esta misma página. Es necesario regirigir el botón de cancelar a gestión de usuarios con JS -->
+            <!-- EL formulario redirige a esta misma página. Es necesario regirigir el botón de cancelar a gestión de usuarios con JS o quitando su submit y metiendo un enlace -->
             <form action="index.php?p=gu" method="POST" enctype="multipart/form-data" name="formAltaUsuario" id="formAltaUsuario" class="pt-5">
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Nombre:</label>
@@ -44,22 +44,21 @@ $tipos = $aux->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de usuar
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Tipo:</label>
                     <div class="col-6 col-sm-6 col-lg-5">
-                        <select class="form-control rounded-pill" name="tipo_usuario" id="tipo_usuario">
-                            <?php
-                            foreach ($tipos as $valor) {
-                                echo "<option value=\"$valor\">$valor</option>";
-                            }
-                            ?>
+                        <select class="form-control rounded-pill" name="tipo_usuario">
+                            <?php foreach ($tipos as $valor) : ?>
+                                <option value=" <?= $valor ?>"><?= $valor;  ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
-                        <input type="submit" class="form-control btn btn-success rounded-pill" id="altaUsuario" value="Alta Usuario" name="altaUser">
-                        <!-- <button class="form-control rounded-pill btn btn-success" id="altaUsuario" value="Alta Usuario" name="altaUser">Alta Usuario </button> -->
+                        <input type="submit" class="form-control btn btn-success rounded-pill" name="altaUser" value="Alta Usuario">
+                        <!-- <button class="form-control rounded-pill btn btn-success" id="altaUsuario" name="altaUser" value="Alta Usuario">Alta Usuario </button> -->
                     </div>
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
-                        <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" id="cancelarUsuario" name="cancelar"> -->
+                        <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" id="cancelarUsuario" name="cancelar" value="Cancelar"> -->
+                        <!-- para usar esta opción tengo que refirigir con JS -->
                         <button class="form-control rounded-pill btn btn-success"><a href="index.php?p=gu" class="text-decoration-none text-white">Cancelar</a></button>
                     </div>
                 </div>

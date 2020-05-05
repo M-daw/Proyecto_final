@@ -45,11 +45,6 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
     $msg = $planta->msg;
 } */
 
-##################################################################################
-//repasar el id_usuario! ahora es 1, pero tiene que ser el id del usuario logueado
-######################################################################################
-
-
 ?>
 <div class="container my-5">
     <div class="row ">
@@ -90,22 +85,20 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Caracteres diagnósticos:</label>
                     <div class="col-md-10">
-                        <textarea name="caracteres_diagnosticos" class="form-control" rows="4" required></textarea></div>
+                        <textarea class="form-control" name="caracteres_diagnosticos" rows="4" required></textarea></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Uso:</label>
                     <div class="col-md-10">
-                        <textarea name="uso" class="form-control" rows="4"></textarea></div>
+                        <textarea class="form-control" name="uso" rows="4"></textarea></div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Biotipo:</label>
                     <div class="col-6 col-sm-6 col-lg-5">
-                        <select class="form-control rounded-pill" name="biotipo" id="biotipo">
-                            <?php
-                            foreach ($biotipos as $valor) {
-                                echo "<option value=\"$valor\">$valor</option>";
-                            }
-                            ?>
+                        <select name="biotipo" class="form-control rounded-pill">
+                            <?php foreach ($biotipos as $valor) : ?>
+                                <option value="<?= $valor; ?>"><?= $valor; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -122,12 +115,10 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label"> Categoría UICN:</label>
                     <div class="col-6 col-sm-6 col-lg-5">
-                        <select class="form-control rounded-pill" name="cat_UICN" id="cat_UICN">
-                            <?php
-                            foreach ($categorias as $valor) {
-                                echo "<option value=\"$valor\">$valor</option>";
-                            }
-                            ?>
+                        <select class="form-control rounded-pill" name="cat_UICN">
+                            <?php foreach ($categorias as $valor) : ?>
+                                <option value="<?= $valor; ?>"><?= $valor; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -162,14 +153,15 @@ $categorias = $aux->getSQLEnumArray('plantas', 'cat_UICN');
                     </div>
                 </div>
 
-                <input type="hidden" name="id_usuario" value="<?=$id_usuarioS; ?>" maxlength="11">
+                <input type="hidden" name="id_usuario" value="<?= $id_usuarioS; ?>" maxlength="11">
 
                 <div class="form-group row">
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
                         <input type="submit" class="form-control rounded-pill bg-success text-white" value="Alta Planta" name="altaPlanta">
                     </div>
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
-                        <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" id="cancelarPlanta" name="cancelar">
+                        <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" name="cancelar" value="Cancelar" id="cancelarPlanta"> --> <!-- para usar esta opción tengo que refirigir con JS -->
+                        <button class="form-control rounded-pill btn btn-success"><a href="index.php?p=gp" class="text-decoration-none text-white">Cancelar</a></button>
                     </div>
                 </div>
             </form>

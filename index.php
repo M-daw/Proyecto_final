@@ -13,46 +13,41 @@ require("scripts/header.php");
             $opcion = $_GET['p'];
 
         if ($opcion == "ini") {
-            $actual = "INICIO";
             $pagina = "scripts/home.php";
         }
         if ($opcion == "col") {
-            $actual = "COLECCIÓN";
             $pagina = "scripts/coleccion.php";
         }
         if ($opcion == "gp") {
-            $actual = "GESTIÓN PLANTAS";
             $pagina = "scripts/gestionplantas.php";
         }
         if ($opcion == "gu") {
-            $actual = "GESTIÓN USUARIOS";
             $pagina = "scripts/gestionusuarios.php";
         }
         if ($opcion == "au") {
-            $actual = "ALTA USUARIOS";
             $pagina = "scripts/altausuarios.php";
         }
         if ($opcion == "ap") {
-            $actual = "ALTA PLANTAS";
             $pagina = "scripts/altaplantas.php";
         }
         if ($opcion == "mu") {
-            $actual = "MODIFICACIÓN USUARIOS";
             $pagina = "scripts/modifusuarios.php";
         }
         if ($opcion == "mp") {
-            $actual = "MODIFICACIÓN PLANTAS";
             $pagina = "scripts/modifplantas.php";
         }
         if ($opcion == "fp") {
-            $actual = "FICHA PLANTA";
             $pagina = "scripts/fichaplanta.php";
         }
-
+        if ($opcion == "bi") {
+            $pagina = "scripts/borrarimagenes.php";
+        }
+        if ($opcion == "glu") {
+            $pagina = "scripts/galeriausuarios.php";
+        }
 
         //}else{
         //$pagina = "home.php";
-        //$actual = "INICIO";
         //}
 
         require($pagina);

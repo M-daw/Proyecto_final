@@ -135,22 +135,25 @@ class Usuario extends DBAbstractModel
 	}
 	public function login($email_usuario = '', $pass_usuario=''){
 		if($email_usuario == '' || $pass_usuario==''){
-			$this->msg = "Datos incompletos";	
-			echo "NOOOOOORL";		
+			$this->msg = "Datos incompletos";		
 		}else{
 			$this->getFromEmail($email_usuario); //busco el pass relacionado con ese email
 			if ($email_usuario != $this->email_usuario) {
 				$this->msg = "Email no registrado";
-				echo "JAARRL";
 			}else{
 				if ($pass_usuario != $this->pass_usuario) {
 					$this->msg = "Login incorrecto, la contraseña no coincide";
+					$this->email_usuario = ""; //vacío los atributos del usuario que estoy usando en el login, para que no tome los atributos del usuario que ha devuelto la búasqueda por email
+					$this->tipo_usuario = ""; 
+					$this->nombre_usuario = ""; 
+					$this->id_usuario = ""; 
+
 				}else{
 					$_SESSION['email']=$this->email_usuario;
 					$_SESSION['tipo']=$this->tipo_usuario; //se recoges los datos y se crea la sesión
 					$_SESSION['nombre']=$this->nombre_usuario; 
 					$_SESSION['id_usuario']=$this->id_usuario; 
-					$this->msg = "Bienvenido"; 
+					$this->msg = "Bienvenido, $this->nombre_usuario"; 
 				}
 			}
 		}

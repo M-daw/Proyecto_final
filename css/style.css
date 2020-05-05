@@ -9,13 +9,15 @@ body {
 	background-image: url("../img/fondo_m.jpg");
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-attachment: fixed; /*si tengo fixed no hace falta darle height para que se vea la imagen de background*/
+	background-attachment: fixed;
+	/*si tengo fixed no hace falta darle height para que se vea la imagen de background*/
 	background-color: #cff0c2;
 	background-size: cover;
 }
 
 main {
-	min-height: 78vh;   /*para que no quede el footer en medio de la pantalla cuando hay poco contenido*/
+	min-height: 78vh;
+	/*para que no quede el footer en medio de la pantalla cuando hay poco contenido*/
 }
 
 div.row>div:nth-child(3) {
@@ -30,16 +32,27 @@ footer div:first-of-type {
 	height: 75px;
 }
 
-/* ########### Tablas ########### */
-.grad {
-	background-image: linear-gradient(90deg, green, #cff0c2);
+.mensaje {
+	margin-bottom: 0 !important;
+	position: absolute !important;
+	z-index: 3;
 }
 
-tr th:first-child, tr td:first-child {
+/* ########### Tablas ########### */
+.bg-hoja{
+	background-color: #41966c;
+}
+.grad {
+	background-image: linear-gradient(135deg, #41966c, #cff0c2);
+}
+
+tr th:first-child,
+tr td:first-child {
 	padding-left: 2rem !important;
 }
 
-th:last-child, tr td:last-child {
+th:last-child,
+tr td:last-child {
 	padding-right: 2rem !important;
 }
 
@@ -57,7 +70,9 @@ th:last-child, tr td:last-child {
 }
 
 /* ########### Estilo de las galerías ########### */
-#galeria-principal .swiper-slide, #galeria-usuario .swiper-slide {
+#galeria-principal .swiper-slide,
+#galeria-usuario .swiper-slide,
+#galeria-usuario .swiper-slide img {
 	width: calc(60vw);
 	height: calc(60vw * 0.75);
 }
@@ -67,6 +82,10 @@ th:last-child, tr td:last-child {
 	height: 300px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#galeria-usuario {
+	background-color: #cff0c2;
 }
 
 .swiper-slide {
@@ -96,13 +115,13 @@ th:last-child, tr td:last-child {
 	opacity: 1;
 }
 
-/* ########### Animación pájaros ########### */
+/* ########### Animación pájaros en el Home ########### */
 .cont-pajaros {
 	min-height: 35rem;
 	/*background-color: rgb(207, 240, 194, 1);  /*si uso jumbotron, poner !important, porque lleva bg por defecto*/
 	/*background-image: linear-gradient(to bottom,  rgba(174, 248, 144, 0.2) 0%,rgba(13, 255, 106, 0.4) 100%), url('../img/sierra_de_crevillente.jpg');
 	/*background-image: linear-gradient(to bottom,  rgba(255,168,76,0.6) 0%,rgba(255,123,13,0.6) 100%), url('https://images.unsplash.com/photo-1446824505046-e43605ffb17f');*/
-	background-image: url('../img/sierra_de_crevillente.jpg');
+	background-image: url('../img/Sierra_Crevillent.jpg');
 	background-blend-mode: multiply;
 	background-size: cover;
 	background-position: center center;
@@ -151,23 +170,23 @@ th:last-child, tr td:last-child {
 }
 
 .pajaro-cont--uno {
-	animation-duration: 15s;
+	animation-duration: 7.5s;
 	animation-delay: 0;
 }
 
 .pajaro-cont--dos {
-	animation-duration: 16s;
-	animation-delay: 1s;
+	animation-duration: 8s;
+	animation-delay: 0.5s;
 }
 
 .pajaro-cont--tres {
-	animation-duration: 14.6s;
-	animation-delay: 9.5s;
+	animation-duration: 7.3s;
+	animation-delay: 3.5s;
 }
 
 .pajaro-cont--cuatro {
-	animation-duration: 16s;
-	animation-delay: 10.25s;
+	animation-duration: 8s;
+	animation-delay: 4s;
 }
 
 @keyframes vuelo {
@@ -177,7 +196,8 @@ th:last-child, tr td:last-child {
 }
 
 @keyframes volar-desplazamiento {
-	0% {
+
+	/*0% {
 		transform: scale(0.3) translateX(-10vw);
 	}
 
@@ -207,43 +227,84 @@ th:last-child, tr td:last-child {
 
 	100% {
 		transform: translateY(0vh) translateX(110vw) scale(0.6);
+	}*/
+	0% {
+		transform: scale(0.3) translateX(0vw);
 	}
+
+	15% {
+		transform: translateY(2vh) translateX(16vw) scale(0.4);
+	}
+
+	30% {
+		transform: translateY(0vh) translateX(32vw) scale(0.5);
+	}
+
+	45% {
+		transform: translateY(4vh) translateX(48vw) scale(0.6);
+	}
+
+	60% {
+		transform: translateY(2vh) translateX(64vw) scale(0.6);
+	}
+
+	75% {
+		transform: translateY(0vh) translateX(80vw) scale(0.6);
+	}
+
+	90% {
+		transform: translateY(0vh) translateX(96vw) scale(0.6);
+	}
+
+	100% {
+		transform: translateY(0vh) translateX(105vw) scale(0.6);
+	}
+
 }
 
 
 /* ########### Cambios responsivos ########### */
+/*tomo breakpoints de Bootstrap. */
 @media screen and (min-width: 768px) {
+
+	/* md, tablets */
 	body {
 		background-image: url("../img/fondo_d.jpg");
 	}
 
-	div.row.portada>div:nth-child(3) {
+	/*div.row.portada>div:nth-child(3) {
 		margin-top: auto;
-	}
+	}*/
 
 	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide {
+	#galeria-usuario .swiper-slide,
+	#galeria-usuario .swiper-slide img {
 		width: calc(40vw);
 		height: calc(40vw * 0.75);
 	}
 }
 
 @media screen and (min-width: 992px) {
-	/*tomo breakpoints de Bootstrap. */
+
+	/*lg, desktop*/
 	div.row.portada>div:nth-child(3) {
-		margin-top: -275px;
+		margin-top: -225px;
 	}
 
 	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide {
+	#galeria-usuario .swiper-slide,
+	#galeria-usuario .swiper-slide img {
 		width: calc(30vw);
 		height: calc(30vw * 0.75);
 	}
 }
 
 @media screen and (min-width: 1200px) {
+
+	/*xl, pantallas muy grandes*/
 	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide {
+	#galeria-usuario .swiper-slide,
+	#galeria-usuario .swiper-slide img {
 		width: calc(20vw);
 		height: calc(20vw * 0.75);
 	}

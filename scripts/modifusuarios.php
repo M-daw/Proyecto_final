@@ -21,47 +21,57 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
         </div>
         <div class="card card-body col-lg-9 col-xl-8">
             <form action="index.php?p=gu" method="POST" enctype="multipart/form-data" name="formModiusuario" id="formModiusuario">
-    <!-- EL formulario redirige a la gestión de usuarios, tanto cuando se modifica como cuando se cancela -->
-                <input type="hidden" name="id_usuario" maxlength="10" size="40" <?php if (isset($id)) {
-                                                                                    echo "value='$id'";
-                                                                                } ?>>
+                <!-- EL formulario redirige a la gestión de usuarios, tanto cuando se modifica como cuando se cancela -->
+                <input type="hidden" name="id_usuario" value="<?php if (isset($id)) :
+                                                                    echo $id;
+                                                                endif; ?>" maxlength="10" size="40">
 
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Nombre:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="nombre_usuario" maxlength="30" required <?php if (isset($nombre)) {
-                                                                                                                                echo "value='$nombre'";
-                                                                                                                            } ?>>
+                        <input type="text" class="form-control rounded-pill" name="nombre_usuario" value="<?php if (isset($nombre)) :
+                                                                                                                echo $nombre;
+                                                                                                            endif; ?>" maxlength="30" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">E-mail</label>
                     <div class="col-md-10">
-                        <input type="email" class="form-control rounded-pill" name="email_usuario" maxlength="40" required <?php if (isset($email)) {
-                                                                                                                                echo "value='$email'";
-                                                                                                                            } ?>>
+                        <input type="email" class="form-control rounded-pill" name="email_usuario" value="<?php if (isset($email)) :
+                                                                                                                echo $email;
+                                                                                                            endif; ?>" maxlength="40" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Contraseña:</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control rounded-pill" name="pass_usuario" minsize="6" maxlength="16" required <?php if (isset($pass)) {
-                                                                                                                                echo "value='$pass'";
-                                                                                                                            } ?>>
+                        <input type="text" class="form-control rounded-pill" name="pass_usuario" value="<?php if (isset($pass)) :
+                                                                                                            echo $pass;
+                                                                                                        endif; ?>" minsize="6" maxlength="16" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Tipo:</label>
                     <div class="col-6 col-sm-6 col-lg-5">
-                        <select class="form-control rounded-pill" name="tipo_usuario" id="tipo_usuario">
-                            <?php
-                            foreach ($tipos as $valor) {
-                                echo "<option value=\"$valor\" ";
-                                if ($tipo == $valor) echo 'selected="selected"';
-                                echo ">$valor</option>";
-                            }
-                            ?>
-                        </select>
+                        <?php if ($tipo != "Administrador") : ?>
+                            <select class="form-control rounded-pill" name="tipo_usuario" id="tipo_usuario">
+                                <?php foreach ($tipos as $valor) :
+                                    echo "<option value=\"$valor\" ";
+                                    if ($tipo == $valor) :
+                                        echo "selected=\"selected\"";
+                                    endif;
+                                    echo ">$valor</option>";
+                                endforeach; ?>
+                            </select>
+                        <?php else : ?>
+                            <select class="form-control rounded-pill" name="tipo_usuario" id="tipo_usuario">
+                                <?php
+                                echo "<option value=\"$tipo\" ";
+                                echo "selected=\"selected\"";
+                                echo ">$tipo</option>";
+                                ?>
+                            </select>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -69,8 +79,10 @@ $tipos = $usuario->getSQLEnumArray('usuarios', 'tipo_usuario'); //los tipos de u
                         <input type="submit" class="form-control rounded-pill bg-success text-white" value="Modificar Usuario" name="modifUser">
                     </div>
                     <div class="col-6 col-sm-4 col-lg-3 col-form-label">
-                            <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" name="cancelar"> -->
-                            <button class="form-control rounded-pill btn btn-success"><a href="index.php?p=gu" class="text-decoration-none text-white">Cancelar</a></button>
+                        <!-- <input type="submit" class="form-control rounded-pill bg-success text-white" value="Cancelar" name="cancelar"> -->
+                        <button class="form-control rounded-pill btn btn-success">
+                            <a href="index.php?p=gu" class="text-decoration-none text-white">Cancelar</a>
+                        </button>
                     </div>
                 </div>
             </form>

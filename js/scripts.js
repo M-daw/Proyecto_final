@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
   //funciones para cambiar donde redirigen los formularios de alta de Usuarios y PLantas cuando se cancela la acción
-  //todos los formularios van ahora a gestión, con cancelar y con crear/modificar. hace falta por los campos requeridps. NOOOO, que cancelar es un enlace
+  //todos los formularios van ahora a gestión, con cancelar y con crear/modificar. Haría falta redirigir para skippear los campos requeridos, pero se opta por botón con enlace y ya no hace falta
   /*  $("#cancelarUsuario").click(function () {
     $("[name='formAltaUsuario']").attr('action', 'index.php?p=gu');
     $("[name='formAltaUsuario']").submit();
@@ -12,8 +12,16 @@ $(document).ready(function () {
     $("[name='formAltaPlanta']").submit();
   });  */
 
+  /**
+   * ######################################################################
+   * ######################################################################
+   * ############### Funciones para crear las galerías ####################
+   * ######################################################################
+   * ###################################################################### 
+   */
+
   //galería en el Home
-  var swiper = new Swiper('#galeria-principal', {
+  var galeriaPrincipal = new Swiper('#galeria-principal', {
     effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
@@ -63,25 +71,52 @@ $(document).ready(function () {
     grabCursor: true,
     centeredSlides: true,
     slidesPerView: 'auto',
-   spaceBetween: 20,
+    spaceBetween: 20,
     pagination: {
       el: '.swiper-pagination',
     },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
     autoplay: {
-      delay: 2500,
+      delay: 2000,
       disableOnInteraction: false,
     },
     loop: true
   });
-
+  $("#galeria-usuario").hover(function () {
+    (this).swiper.autoplay.stop();
+  }, function () {
+    (this).swiper.autoplay.start();
+  });
+  /**
+   * ######################################################################
+   * ######################################################################
+   * ################### Funciones con conexiones AJAX ####################
+   * ######################################################################
+   * ###################################################################### 
+   */
   //borrado de fotos - AJAX
   $('.botonBorrarFoto').click(function (e) {
 
     e.preventDefault();
 
-    var id = $(this).attr('data-id');  //cojo la id de la foto/planta a borrar con el atributo data-id que tiene en enlace. Si es tipo ficha será a id de la planta, y si es galería será el id de la propia foto
-    var ruta = $(this).attr('data-ruta');  //cojo la id de la foto a borrar con el atributo data-ruta que tiene en enlace
-    var tipo = $(this).attr('data-tipo'); //cojo el tipo de foto (galeria de usuarios o si es de ficha de planta, si es general, hoja, etc) a borrar con el atributo data-tipo del enlace
+    var tipo = $(this).attr('data-tipo'); //cojo el tipo de foto (galeria de usuarios o si es de ficha de planta, si es general, hoja, etc) a borrar con el atributo data-tipo del enlace o submit
+
+    //si es una foto de la ficha de planta cojo sus atributos, si es de las galerías de usuarios recojo las id en un array y dejo la ruta vacía
+    if (tipo != "galeria") {
+      var id = $(this).attr('data-id'); //cojo la id de la foto/planta a borrar con el atributo data-id que tiene en enlace. Si es tipo ficha será a id de la planta, y si es galería será el id de la propia foto
+      var ruta = $(this).attr('data-ruta');  //cojo la ruta de la foto a borrar con el atributo data-ruta que tiene en enlace
+    } else {
+      var ids = [];
+      $("input[type=checkbox]:checked").each(function () {
+        ids.push(this.value);
+      });
+      var id = ids.toString();
+      var ruta = "";
+    }
+
     var img = $(this).siblings('img');
     var enlace = $(this);
     var parametros = {
@@ -114,9 +149,19 @@ $(document).ready(function () {
               data: parametros
             })
               .done(function (data) {
-                img.fadeOut('slow'); // No recargo la página con lo no recarga el php que muestra las filas, y necesito "eliminar" ese registro de la vista sin recargar
-                enlace.fadeOut('slow');
-                $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
+                //este bloque nuevo
+                if (tipo != "galeria") {
+                  img.fadeOut('slow'); // No recargo la página con lo no recarga el php que muestra las filas, y necesito "eliminar" ese registro de la vista sin recargar
+                  enlace.fadeOut('slow');
+                  $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
+                } else {
+                  //$("input[type=checkbox]:checked").each(function () {
+                  //  $(this).parents(".card").fadeOut();
+                  // });
+                  //$("#formBorradoGalerias").submit()
+                  $('#mensajes-y-errores').html('<div class="row"><div class="alert alert-warning">' + data + '</div></div>');
+                  setTimeout(function () { location.reload(); }, 2500); //aquí sí recargo por la disposición de las imágenes en la página. De usar el mismo método que en las imágenes de la ficha quedarían huecos 
+                }
               })
               .fail(function () {
                 bootbox.alert('Algo ha ido mal. No se ha podido completar la acción.');
@@ -158,7 +203,7 @@ $(document).ready(function () {
           callback: function () {
 
             $.ajax({
-              url: './lib/functions.php',
+              url: './lib/functions.php',  
               method: 'post',
               dataType: 'html',
               data: parametros
@@ -176,9 +221,6 @@ $(document).ready(function () {
     });
   }); //fin función de borrado de registros
 
-
-
-
   //Ordenación de la colección de plantas - AJAX
   $('.ordenar').each(function () {
     $(this).click(function () {
@@ -188,7 +230,7 @@ $(document).ready(function () {
         var order = "asc";
       }
       var parent = $(this).parents("thead");
-      //console.log(datos);  //ok
+      console.log(datos);  //ok
 
       //cuando se clica uno de estos botones se cambia el icono de la flecha. Lo hago después de coger la variable para la ordenación que voy a mandar por AJAX
       $(this).children("i").toggleClass('fa-sort-up');
@@ -238,40 +280,13 @@ $(document).ready(function () {
   }); //fin ordenar
 
 
-  /* $('#ordenarNC').click(function() {
-    alert( "pulsado" );
-  }); */
-
-
-  //validación formulario
-  /* $("#formAltaUsuario").submit(function () {
-    var expRegTexto = /^[A-Za-z \s]+$/; 
-    var expRegMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-    var nombre;
-    var mail, pass;
-    
-    var OKnombre = false;
-   
-    nombre = $("#nombre_usuario").val();
-    mail = $("[name='email_usuario']").val();
-    $("#nombre_usuario + .text-danger").remove();  //quito los posibles mensajes de error
-    if (!nombre || nombre.length === 0 || nombre.trim() === "") { //si el campo no contiene nada se indica que está vacío bajo el input
-      $("#nombre_usuario").after("<div class='text-danger'>*Introduce nombre </div>");
-    } else if (expRegTexto.test(nombre)) { //si contiene algo se evalua con la expresión regular para el nombre
-      OKnombre = true;   //si es válido se setea a TRUE su variable booleana
-    } else {
-      $("#nombre_usuario").after("<div class='text-danger'>*Nombre no válido</div>");//si no es válido se indica bajo el input
-    }
-   
-    if (OKnombre) {
-      alert("que si")
-    } else {
-      alert("que no")
-      event.preventDefault(); //si falla la validación impido que se envíe el formulario
-    }
-   
-  });  */  //funciona, voy a probar con librería validate
-
+  /**
+ * ######################################################################
+ * ######################################################################
+ * ################### Validación de formularios  #######################
+ * ######################################################################
+ * ###################################################################### 
+ */
 
   //$("#formAltaUsuario").submit(function () { }).validate({
   //$("#formAltaUsuario").validate({
@@ -375,6 +390,22 @@ $(document).ready(function () {
     esCampoTexto: {
       esTexto: true,
       existe: true
+    }
+  });
+
+
+  /**
+ * ######################################################################
+ * ######################################################################
+ * ########################## Otras Funciones ###########################
+ * ######################################################################
+ * ###################################################################### 
+ */
+  //función para desplegar el  formulario de registro en la página de las ficha de planta desde el enlace de registro
+  $('#abrir').click(function (e) {
+    e.stopPropagation();
+    if ($('#desplegableRegistro').find('.dropdown-menu').is(":hidden")) {
+      $('#desplegableRegistro').find('.dropdown-toggle').dropdown('toggle');
     }
   });
 

@@ -6,6 +6,10 @@
 	Deny from all
 </IfModule>
 
+
+RewriteEngine On
+RewriteRule index1\.html http://www.google.com [R]
+
 # Apache 2.4
 <IfModule mod_authz_core.c>
 	Require all denied

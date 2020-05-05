@@ -27,10 +27,6 @@ $foto_flor = $planta->foto_flor;
 $foto_hoja = $planta->foto_hoja;
 $foto_fruto = $planta->foto_fruto;
 
-##################################################################################
-//repasar el id_usuario! ahora es 1, pero tiene que ser el id del usuario logueado
-###################################################################################
-
 if (isset($_POST['addImagen'])) {
     $imagen = new Imagen();
     $id_planta = $id;
@@ -74,39 +70,55 @@ if (count($imagen->get_rows()) > 0) {
 
 <div class="container-fluid pt-3">
     <div class="container my-5" id="ficha">
-        <h1><?= $nombre_cientifico  ?></h1>
-        <div class="row ">
+        <h1><?= $nombre_cientifico; ?></h1>
+        <div class="row">
             <div id="mostrar_datos" class="col-lg-6">
-                <p> Nombre en castellano: <?= $nombre_castellano ?> </p>
-                <p>Nombre en valenciano: <?= $nombre_valenciano ?> </p>
-                <p>Nombre en inglés: <?= $nombre_ingles ?> </p>
-                <p>Familia: <?= $familia ?> </p>
-                <p>Caracteres Diagnósticos: <?= $caracteres_diagnosticos ?> </p>
-                <p>Uso: <?= $uso ?> </p>
-                <p>Biotipo: <?= $biotipo ?> </p>
-                <p>Hábitat: <?= $habitat ?> </p>
-                <p>Distribución: <?= $distribucion ?> </p>
-                <p>Categoría UICN: <?= $cat_UICN ?> </p>
-                <p>Floración: <?= $floracion ?> </p>
+                <p>Nombre en castellano: <?= $nombre_castellano; ?> </p>
+                <p>Nombre en valenciano: <?= $nombre_valenciano; ?> </p>
+                <p>Nombre en inglés: <?= $nombre_ingles; ?> </p>
+                <p>Familia: <?= $familia; ?> </p>
+                <p>Caracteres Diagnósticos: <?= $caracteres_diagnosticos; ?> </p>
+                <p>Uso: <?= $uso; ?> </p>
+                <p>Biotipo: <?= $biotipo; ?> </p>
+                <p>Hábitat: <?= $habitat; ?> </p>
+                <p>Distribución: <?= $distribucion; ?> </p>
+                <p>Categoría UICN: <?= $cat_UICN; ?> </p>
+                <p>Floración: <?= $floracion; ?> </p>
             </div>
 
-            <div id="mostrar_imagenes" class="col-lg-6">
-                <div id="galeria-planta" class="swiper-container gallery-top">
+            <div class="col-lg-6" id="mostrar_imagenes">
+                <div class="swiper-container gallery-top" id="galeria-planta">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url('<?php if ($foto_general != '') echo $foto_general;
-                                                                                                                                                                else echo 'img/plantas/planta_default.jpg'; ?>')">
+                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url(
+                            <?php if ($foto_general != '') :
+                                echo $foto_general;
+                            else :
+                                echo 'img/plantas/planta_default.jpg';
+                            endif; ?>);">
                             <span class="bg-light">Vista general</span>
                         </div>
-                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url('<?php if ($foto_flor != '') echo $foto_flor;
-                                                                                                                                                                else echo 'img/plantas/flor_default.jpg'; ?>')">
+                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url(
+                            <?php if ($foto_flor != '') :
+                                echo $foto_flor;
+                            else :
+                                echo 'img/plantas/flor_default.jpg';
+                            endif; ?>);">
                             <span class="bg-light">Vista de la flor</span>
                         </div>
-                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url('<?php if ($foto_hoja != '') echo $foto_hoja;
-                                                                                                                                                                else echo 'img/plantas/hoja_default.png'; ?>')">
+                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url(
+                            <?php if ($foto_hoja != '') :
+                                echo $foto_hoja;
+                            else :
+                                echo 'img/plantas/hoja_default.png';
+                            endif; ?>);">
                             <span class="bg-light">Vista de la hoja</span>
                         </div>
-                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url('<?php if ($foto_fruto != '') echo $foto_fruto;
-                                                                                                                                                                else echo 'img/plantas/fruto_default.jpg'; ?>')">
+                        <div class="swiper-slide border border-success rounded-lg d-flex justify-content-center align-items-end" style="background-image:url(
+                            <?php if ($foto_fruto != '') :
+                                echo $foto_fruto;
+                            else :
+                                echo 'img/plantas/fruto_default.jpg';
+                            endif; ?>);">
                             <span class="bg-light">Vista del fruto</span>
                         </div>
                     </div>
@@ -118,14 +130,26 @@ if (count($imagen->get_rows()) > 0) {
                 <!-- Miniaturas -->
                 <div class="swiper-container gallery-thumbs mt-3">
                     <div class="swiper-wrapper">
-                        <img class="swiper-slide" src="<?php if ($foto_general != '') echo $foto_general;
-                                                        else echo 'img/plantas/planta_default.jpg'; ?>">
-                        <img class="swiper-slide" src="<?php if ($foto_flor != '') echo $foto_flor;
-                                                        else echo 'img/plantas/flor_default.jpg'; ?>">
-                        <img class="swiper-slide" src="<?php if ($foto_hoja != '') echo $foto_hoja;
-                                                        else echo 'img/plantas/hoja_default.png'; ?>">
-                        <img class="swiper-slide" src="<?php if ($foto_fruto != '') echo $foto_fruto;
-                                                        else echo 'img/plantas/fruto_default.jpg'; ?>">
+                        <img class="swiper-slide" src="<?php if ($foto_general != '') :
+                                                            echo $foto_general;
+                                                        else :
+                                                            echo 'img/plantas/planta_default.jpg';
+                                                        endif; ?>" alt="imagen de <?= $nombre_cientifico; ?>">
+                        <img class="swiper-slide" src="<?php if ($foto_flor != '') :
+                                                            echo $foto_flor;
+                                                        else :
+                                                            echo 'img/plantas/flor_default.jpg';
+                                                        endif; ?>" alt="imagen de la flor de <?= $nombre_cientifico; ?>">
+                        <img class="swiper-slide" src="<?php if ($foto_hoja != '') :
+                                                            echo $foto_hoja;
+                                                        else :
+                                                            echo 'img/plantas/hoja_default.png';
+                                                        endif; ?>" alt="imagen de la hoja de <?= $nombre_cientifico; ?>">
+                        <img class="swiper-slide" src="<?php if ($foto_fruto != '') :
+                                                            echo $foto_fruto;
+                                                        else :
+                                                            echo 'img/plantas/fruto_default.jpg';
+                                                        endif; ?>" alt="imagen del fruto de <?= $nombre_cientifico; ?>">
                     </div>
                 </div>
             </div>
@@ -136,36 +160,53 @@ if (count($imagen->get_rows()) > 0) {
         <div id="galeria-usuario" class="swiper-container col-12 py-5">
             <h1 class="text-center text-success pb-3">Galería de Usuarios</h1>
             <div class="swiper-wrapper">
-
-                <?php
-                foreach ($imagenes as $foto) {
-                    echo '<div class="swiper-slide" style="background-image:url(' . $foto . ')"></div>';
-                }
-                ?>
-
+                <?php foreach ($imagenes as $foto) : ?>
+                    <div class="swiper-slide" style="background-image:url('<?= $foto; ?>')"></div>
+                    <div class="swiper-slide">
+                        <img src="<?= $foto; ?>" alt="">
+                    </div>
+                <?php endforeach; ?>
             </div>
+            <!-- Flechas -->
+            <div class="swiper-button-next text-success"></div>
+            <div class="swiper-button-prev text-success"></div>
             <!-- Paginación -->
             <div class="swiper-pagination"></div>
         </div>
     </div> <!-- fin row -->
 
     <div class="container">
-        <p>Esta galería contiene las fotos subidas por los usuarios. Regístrate para colaborar.</p>
-        <?php
-        if ($tipoS != "") {
-        ?>
-            <form action='index.php?p=fp&f=<?= $id; ?>' method='POST' enctype="multipart/form-data">
-                <button type='submit' value='Añadir imagen' name='addImagen' class="btn btn-outline-success bg-light px-2"> <i class="far fa-image px-\"></i> Añadir imagen</button>
-                <div class="form-group row">
-                    <div class="col-md-10 mt-3">
-                        <input type="file" class="form-control-file" name="planta_galeria" accept="image/gif, image/jpeg, image/png">
+        <p>Esta galería contiene las fotos subidas por los usuarios.
+            <?php if ($tipoS != "") :
+                //si el usuario está registrado cambia el texto, y se muestra el formulario de subida de fotos. 
+            ?>
+                Anímate y sube tus fotos.
+                <form action="index.php?p=fp&f=<?= $id; ?>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <div class="col-md-10 mt-3">
+                            <input type="file" class="form-control-file" name="planta_galeria" accept="image/gif, image/jpeg, image/png">
+                        </div>
                     </div>
-                </div>
-            </form>
-        <?php
-        }
-        ?>
+                    <!--<input type="submit" class="form-control rounded-pill bg-success text-white" name="modifPlanta" value="Modificar Planta">-->
+                    <div class="form-group row">
+                        <div class="col-6 col-sm-4 col-lg-3">
+                            <input type="submit" class="form-control rounded-pill bg-success text-white" name="addImagen" value="Añadir imagen">
+                        </div>
+                    </div>
+                </form>
+                <?php if ($tipoS != "Usuario") : ?>
+                    <p class="mt-4">Si alguna de las imágenes no debería estar aquí puedes eliminarla.</p>
+                    <form action="index.php?p=bi" method="POST" enctype="multipart/form-data">
+                        <button type="submit" class="btn btn-outline-success bg-light px-2" name="deleteImagenes" value="Eliminar imagenes">
+                            <i class="far fa-image "></i> Eliminar Imágenes
+                        </button>
+                        <input type="hidden" name="id_planta" value="<?= $id; ?>">
+                    </form>
+                <?php endif;
+
+            else : ?>
+                <a class="text-success text-decoration-none" id="abrir" href="#">Regístrate</a> para colaborar.
+            <?php endif; ?>
+        </p>
     </div>
-
-
 </div> <!-- fin container-fluid -->

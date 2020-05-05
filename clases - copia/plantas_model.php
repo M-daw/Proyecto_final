@@ -85,6 +85,40 @@ class Planta extends DBAbstractModel
 			endforeach;
 		endif;
 	}
+	public function getFamilies()
+	{ //se añade función para obtener las diferentes familias, para dibujar su select
+			$this->query = "
+			SELECT distinct familia
+			FROM plantas
+			ORDER BY familia ASC
+			";
+			//echo $this->query;
+			$this->get_results_from_query();
+		if (count($this->rows) == 1) :
+			foreach ($this->rows[0] as $propiedad => $valor) :
+				$this->$propiedad = $valor;
+			endforeach;
+		endif;
+	}
+	public function buscar($texto = '')
+	{ //se añade función para obtener nombres de planta a partir de un texto a buscar
+		if ($texto != '') {
+			$this->query = "
+			SELECT *
+			FROM plantas
+			WHERE nombre_cientifico LIKE '%$texto%'
+			";
+			//echo $this->query;
+			$this->get_results_from_query();
+		}
+		if (count($this->rows) == 1){
+			foreach ($this->rows[0] as $propiedad => $valor) :
+				$this->$propiedad = $valor;
+			endforeach;
+		}else if (count($this->rows) == 0){
+			$this->msg = 'No hay resultados que se ajusten a la búsqueda';
+		}
+	}
 	public function set($data = array())
 	{
 		//el id_planta es autoincrementable, nunca se repetirá, pero hay que comprobar si el nombre científico está registrado
