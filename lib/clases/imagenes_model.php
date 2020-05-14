@@ -10,15 +10,7 @@ class Imagen extends DBAbstractModel
 
 	function __construct()
 	{
-		//se modifica este método para poder modificar los datos de conexión a la base de datos sin necesidad de modificar las clases, solo editando un archivo de texto
-
-		//local
-		$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
-		$fichero = $raiz."/Proyecto/config.txt";
-		/*
-		//host
-		$fichero = $_SERVER['DOCUMENT_ROOT']."/config.txt";
-		*/
+		$fichero = __DIR__ . "/../../config.txt";
 		$contenido = array();
 
 		if (is_file($fichero)) {
@@ -29,10 +21,10 @@ class Imagen extends DBAbstractModel
 				}
 			}
 
-			$this->db_host = rtrim($contenido["servidor"]);
-			$this->db_user = rtrim($contenido["usuario"]);
-			$this->db_pass = rtrim($contenido["pass"]);
-			$this->db_name = rtrim($contenido["tabla"]);
+			static::setDb_host(trim($contenido["servidor"]));
+			static::setDb_user(trim($contenido["usuario"]));
+			static::setDb_pass(trim($contenido["pass"]));
+			static::setDb_name(trim($contenido["db"]));
 		} else
 			$this->error = "ERROR: No existe el fichero de configuración de la conexión.";
 
@@ -42,18 +34,12 @@ class Imagen extends DBAbstractModel
 	public function get($id_imagen = '')
 	{
 		if ($id_imagen != '') {
-			/*$this->query = "
-			SELECT id_imagen,id_planta,id_usuario,enlace_imagen
-			FROM imagenes
-			WHERE id_imagen = '$id_imagen'
-			";*/ //query original, sin sentencias preparadas
 			$this->query = "
 			SELECT id_imagen,id_planta,id_usuario,enlace_imagen
 			FROM imagenes
 			WHERE id_imagen = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();  //llamada a la función original, sin sentencias preparadas
 			$this->get_results_from_query("i", $id_imagen);
 		} else {
 			$this->query = "
@@ -72,18 +58,12 @@ class Imagen extends DBAbstractModel
 	public function getFromUser($id_usuario = '')
 	{ //se añade función para obtener la planta a partir de su nombre científico, que necesito para ver si está ya registrada
 		if ($id_usuario != '') {
-			/*$this->query = "
-			SELECT *
-			FROM imagenes
-			WHERE id_usuario = '$id_usuario'
-			";*/
 			$this->query = "
 			SELECT *
 			FROM imagenes
 			WHERE id_usuario = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();
 			$this->get_results_from_query("i", $id_usuario);
 		}
 		if (count($this->rows) == 1) :
@@ -96,18 +76,12 @@ class Imagen extends DBAbstractModel
 	public function getFromPlant($id_planta = '')
 	{ //se añade función para obtener la planta a partir de su nombre científico, que necesito para ver si está ya registrada
 		if ($id_planta != '') {
-			/*$this->query = "
-			SELECT *
-			FROM imagenes
-			WHERE id_planta = '$id_planta'
-			";*/
 			$this->query = "
 			SELECT *
 			FROM imagenes
 			WHERE id_planta = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();
 			$this->get_results_from_query("i", $id_planta);
 		}
 		if (count($this->rows) == 1) :
@@ -121,14 +95,8 @@ class Imagen extends DBAbstractModel
 	{
 		//como el id_imagen es autoincrementable, nunca se repetirá... no hace falta comprobar si existe
 		foreach ($data as $campo => $valor) :
-			$$campo = $valor;
+			$$campo = $valor; //en esta función no hace falta el trim porque no hay ningún dato tecleado por el usuario y no hay posibilidad de introducir espacios en blanco delante o detrás
 		endforeach;
-		/*$this->query = "
-				INSERT INTO imagenes
-				(id_planta,id_usuario,enlace_imagen)
-				VALUES
-				('$id_planta', '$id_usuario', '$enlace_imagen')
-				";*/
 		$this->query = "
 				INSERT INTO imagenes
 				(id_planta,id_usuario,enlace_imagen)
@@ -136,7 +104,6 @@ class Imagen extends DBAbstractModel
 				(?, ?, ?)
 				";
 		//echo $this->query;
-		//$this->execute_single_query();
 		$this->execute_single_query("iis", $id_planta, $id_usuario, $enlace_imagen);
 		if ($this->error == "") //si no hay error
 			$this->msg = 'Imagen agregada con éxito';
@@ -144,7 +111,7 @@ class Imagen extends DBAbstractModel
 	public function edit($data = array())
 	{
 		foreach ($data as $campo => $valor) :
-			$$campo = $valor;
+			$$campo = $valor; //en esta función no hace falta el trim porque no hay ningún dato tecleado por el usuario y no hay posibilidad de introducir espacios en blanco delante o detrás
 		endforeach;
 		/*$this->query = "
 			UPDATE imagenes
@@ -168,16 +135,11 @@ class Imagen extends DBAbstractModel
 	}
 	public function delete($id_imagen = '')
 	{
-		/*$this->query = "
-		DELETE FROM imagenes
-		WHERE id_imagen = '$id_imagen'
-		";*/
 		$this->query = "
 		DELETE FROM imagenes
 		WHERE id_imagen = ?
 		";
 		//echo $this->query;
-		//$this->execute_single_query();
 		$this->execute_single_query("i", $id_imagen);
 		if ($this->error == "") //si no hay error
 			$this->msg = 'Imagen ' . $id_imagen . ' eliminada con éxito';
@@ -185,18 +147,12 @@ class Imagen extends DBAbstractModel
 	public function getAuthor($id_imagen = '')
 	{ //se añade función para obtener los datos del autor de una imagen, dada la id de la misma
 		if ($id_imagen != '') {
-			/*$this->query = "
-			SELECT *
-			FROM usuarios join imagenes on imagenes.id_usuario = usuarios.id_usuario
-			WHERE id_imagen = '$id_imagen'
-			";*/
 			$this->query = "
 			SELECT *
 			FROM usuarios join imagenes on imagenes.id_usuario = usuarios.id_usuario
 			WHERE id_imagen = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();
 			$this->get_results_from_query("i", $id_imagen);
 		}
 		if (count($this->rows) == 1) :
@@ -208,18 +164,12 @@ class Imagen extends DBAbstractModel
 	public function getSciName($id_imagen = '')
 	{ //se añade función para obtener los datos de una planta, dada la id de su imagen
 		if ($id_imagen != '') {
-			/*$this->query = "
-			SELECT *
-			FROM plantas join imagenes on imagenes.id_planta = plantas.id_planta
-			WHERE id_imagen = '$id_imagen'
-			";*/
 			$this->query = "
 			SELECT *
 			FROM plantas join imagenes on imagenes.id_planta = plantas.id_planta
 			WHERE id_imagen = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();
 			$this->get_results_from_query("i", $id_imagen);
 		}
 		if (count($this->rows) == 1) :

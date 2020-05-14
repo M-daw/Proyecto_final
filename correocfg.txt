@@ -1,0 +1,10 @@
+host:smtp.gmail.com
+port:465
+enviaDesde:herbarioonline@gmail.com
+pass:ContrasenyaparaPract1cas
+
+#datos SMTP awardspace
+#smtp.mboxhosting.com ,587, m@gatoscuanticos.dx.am, emaildeprueba1
+#
+#datos SMTP Gmail
+#smtp.gmail.com ,465

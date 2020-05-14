@@ -13,14 +13,7 @@ class Usuario extends DBAbstractModel
 	{
 		//$this->db_name = 'herbariodb';  //en la primera versión se pasa solo el nombre de la base de datos
 		//se modifica este método para poder cambiar los datos de conexión a la base de datos sin necesidad de tocar las clases, solo editando un archivo de texto
-
-		//local
-		$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
-		$fichero = $raiz."/Proyecto/config.txt";
-		/*
-		//host
-		$fichero = $_SERVER['DOCUMENT_ROOT']."/config.txt";
-		*/
+		$fichero = __DIR__ . "/../../config.txt";
 		$contenido = array();
 
 		if (is_file($fichero)) {
@@ -31,28 +24,22 @@ class Usuario extends DBAbstractModel
 				}
 			}
 
-			$this->db_host = rtrim($contenido["servidor"]);
-			$this->db_user = rtrim($contenido["usuario"]);
-			$this->db_pass = rtrim($contenido["pass"]);
-			$this->db_name = rtrim($contenido["tabla"]);
+			static::setDb_host(trim($contenido["servidor"]));
+			static::setDb_user(trim($contenido["usuario"]));
+			static::setDb_pass(trim($contenido["pass"]));
+			static::setDb_name(trim($contenido["db"]));
 		} else
 			$this->error = "ERROR: No existe el fichero de configuración de la conexión.";
 	}
 	public function get($id_usuario = '')
 	{
 		if ($id_usuario != '') {
-			/*$this->query = "
-			SELECT id_usuario,nombre_usuario,email_usuario,pass_usuario,tipo_usuario
-			FROM usuarios
-			WHERE id_usuario = '$id_usuario'
-			";*/ //query original, sin sentencias preparadas
 			$this->query = "
 			SELECT id_usuario,nombre_usuario,email_usuario,pass_usuario,tipo_usuario
 			FROM usuarios
 			WHERE id_usuario = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();  //llamada a la función original, sin sentencias preparadas
 			$this->get_results_from_query("i", $id_usuario);
 		} else {
 			$this->query = "
@@ -70,18 +57,12 @@ class Usuario extends DBAbstractModel
 	public function getFromEmail($email_usuario = '')
 	{  //se añade función para obtener usuario a partir del email, que necesito para ver si está ya registrado
 		if ($email_usuario != '') {
-			/*$this->query = "
-			SELECT id_usuario,nombre_usuario,email_usuario,pass_usuario,tipo_usuario
-			FROM usuarios
-			WHERE email_usuario = '$email_usuario'
-			";*/
 			$this->query = "
 			SELECT id_usuario,nombre_usuario,email_usuario,pass_usuario,tipo_usuario
 			FROM usuarios
 			WHERE email_usuario = ?
 			";
 			//echo $this->query;
-			//$this->get_results_from_query();
 			$this->get_results_from_query("s", $email_usuario);
 		}
 		if (count($this->rows) == 1) :
@@ -98,14 +79,8 @@ class Usuario extends DBAbstractModel
 
 			if ($data['email_usuario'] != $this->email_usuario) {
 				foreach ($data as $campo => $valor) :
-					$$campo = $valor;
+					$$campo = trim($valor); //elimino posibles espacios en blanco "alrededor" del texto tecleado por el usuario
 				endforeach;
-				/*$this->query = "
-						INSERT INTO usuarios
-						(nombre_usuario,email_usuario,pass_usuario,tipo_usuario)
-						VALUES
-						('$nombre_usuario', '$email_usuario', '$pass_usuario', '$tipo_usuario')
-						";*/
 				$this->query = "
 						INSERT INTO usuarios
 						(nombre_usuario,email_usuario,pass_usuario,tipo_usuario)
@@ -113,7 +88,6 @@ class Usuario extends DBAbstractModel
 						(?, ?, ?, ?)
 						";
 				//echo $this->query;
-				//$this->execute_single_query();
 				$this->execute_single_query("ssss", $nombre_usuario, $email_usuario, $pass_usuario, $tipo_usuario);
 				if ($this->error == "") //si no hay error
 					$this->msg = 'Usuario ' . $nombre_usuario . ' registrado con éxito';
@@ -132,16 +106,8 @@ class Usuario extends DBAbstractModel
 
 			if ($data['id_usuario'] == $this->id_usuario || $this->id_usuario == "") {  //si el correo pertenece al usuario que quiero modificar, o no pertenece a nadie puedo continuar con el cambio. 
 				foreach ($data as $campo => $valor) :
-					$$campo = $valor;
+					$$campo = trim($valor); //elimino posibles espacios en blanco "alrededor" del texto tecleado por el usuario
 				endforeach;
-				/*$this->query = "
-					UPDATE usuarios
-					SET nombre_usuario='$nombre_usuario',
-					email_usuario='$email_usuario',
-					pass_usuario='$pass_usuario',
-					tipo_usuario='$tipo_usuario'
-					WHERE id_usuario = '$id_usuario'
-					";*/ 
 				$this->query = "
 					UPDATE usuarios
 					SET nombre_usuario=?,
@@ -151,7 +117,6 @@ class Usuario extends DBAbstractModel
 					WHERE id_usuario = ?
 					";
 				//echo $this->query;
-				//$this->execute_single_query();
 				$this->execute_single_query("ssssi", $nombre_usuario, $email_usuario, $pass_usuario, $tipo_usuario, $id_usuario);
 				if ($this->error == "") //si no hay error
 					$this->msg = 'Usuario ' . $nombre_usuario . ' modificado con éxito';
@@ -164,16 +129,11 @@ class Usuario extends DBAbstractModel
 	}
 	public function delete($id_usuario = '')
 	{
-		/*$this->query = "
-		DELETE FROM usuarios
-		WHERE id_usuario = '$id_usuario'
-		";*/
 		$this->query = "
 		DELETE FROM usuarios
 		WHERE id_usuario = ?
 		";
 		//echo $this->query;
-		//$this->execute_single_query();
 		$this->execute_single_query("i", $id_usuario);
 		if ($this->error == "") //si no hay error
 			$this->msg = 'Usuario ' . $id_usuario . ' eliminado con éxito';

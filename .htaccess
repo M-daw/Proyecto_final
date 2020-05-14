@@ -1,0 +1,18 @@
+#cargar 404 personalizada
+ErrorDocument 404 /Proyecto/index.php?p=404
+
+#prevenir acceso al .htaccess
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
+
+#prevenir acceso a los archivos de configuración
+<files *.txt>
+order allow,deny
+deny from all
+</files>
+
+#evitar navegación por el directorio
+#Options -Indexes #opción 1devuelve 403
+IndexIgnore * #opción 2no aparecen los archivos/directorios

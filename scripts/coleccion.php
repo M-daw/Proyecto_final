@@ -8,7 +8,7 @@ $planta = new Planta();
 #capturo el mensaje que devuelve si no hay archivo de configuración. Si no hay error, continuo
 $error = $planta->error;
 //si hay archivo de configuración continuo. No hay un else, porque el mensaje de error se muestra en index.php, después de las páginas
-if ($error === "") {
+if ($error === "") :
     $msgFiltrado = "";
     $errorFiltrado = "";
     $familiabuscado = "";
@@ -19,7 +19,7 @@ if ($error === "") {
         $familiabuscado = $_POST['familia'];
 
     $planta->get();   //búsqueda de todas las plantas de la base de datos
-    if (count($planta->get_rows()) > 0) {  //si hay alguna planta en la base de datos...
+    if (count($planta->get_rows()) > 0) :  //si hay alguna planta en la base de datos...
 
         if (isset($_POST['buscar']) || isset($_POST['filtrar'])) {  //uso el mismo formulario para filtrar y buscar, compruebo ambos submit
             $busqueda = trim($_POST["q"]);
@@ -37,6 +37,7 @@ if ($error === "") {
             } else {
                 $datos = $planta->get_rows();
             }
+
             //y una vez tengo el array de datos, lo filtro en función de la/s familia/s seleccionadas
             if (!empty($_POST['familia'])) {
                 $aux = array();  //creo un array auxiliar para introducir las filas que se ajustan al filtro
@@ -48,15 +49,17 @@ if ($error === "") {
                 $datos = $aux;  //sustituyo el array de datos por el auxiliar, para usar siempre $datos como mi array 
             }
         } else {
-            //si no pulsado ninguno de los botones de mi formulario de filtrado+búasqueda, defino el array de datos
+            //defino el array de datos si no pulsado ninguno de los botones de mi formulario de filtrado+búsqueda
             $datos = $planta->get_rows();
         }
+
         /**
          * Vista de la página
          */
 ?>
-        <div class="container table-responsive">
-            <div class="container mt-5">
+        <div class="container table-responsive my-5">
+            <h1 class="text-success text-center dekko">Colección de plantas en el Herbario On-line</h1>
+            <div class="container pt-3">
                 <form id="buscador" name="buscador" method="post" action="index.php?p=col">
                     <div class="input-group border rounded-pill bg-white col-sm-10 col-md-7 col-lg-6 mx-auto">
                         <div class="input-group-prepend">
@@ -64,16 +67,19 @@ if ($error === "") {
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
-                        <input type="search" class="form-control border-0 rounded-pill" name="q" value="
-                        <?php if (isset($valorbuscado)) :
-                            echo $valorbuscado;
-                        endif; ?>" placeholder="Buscar..." minlength="3">
+                        <input type="search" class="form-control border-0 rounded-pill" name="q" <?php if ($valorbuscado != "") :
+                                                                                                        echo "value=\"";
+                                                                                                        echo $valorbuscado;
+                                                                                                        echo "\"";
+                                                                                                    else :
+                                                                                                        echo "placeholder=\"Introduce nombre científico\"";
+                                                                                                    endif; ?> minlength="3">
                     </div>
                     <div class="form-group row mt-4">
                         <div class="col-sm-6 col-md-4 ml-auto">
                             <?php
-                            $familias =  new Planta();
-                            $familias->getFamilies();
+                            $familias = new Planta();
+                            $familias->getFamilias();
                             if (count($familias->get_rows()) > 0) :
                                 $html = dibuja_select("familia", $familias->get_rows(), "familia", $familiabuscado, "", "", true);
                                 echo $html;
@@ -88,7 +94,7 @@ if ($error === "") {
             <div class="container">
                 <div class="row">
                     <?php if ($msgFiltrado != "") :
-                        echo "<div class=\"alert alert-warning\">";
+                        echo "<div class=\"alert alert-success\">";
                         echo $msgFiltrado;
                         echo "</div>";
                     endif;
@@ -100,7 +106,7 @@ if ($error === "") {
                 </div>
             </div>
             <table class="table table-hover w-auto mx-auto my-5 grad">
-                <thead class="bg-hoja">
+                <thead class="bg-success">
                     <tr>
                         <?php
                         array_sort_by($datos, 'nombre_cientifico', $order = SORT_ASC); //por defecto los ordeno por nombre científico.
@@ -108,7 +114,7 @@ if ($error === "") {
                             //solo pone las cabeceras la primera vez. Las pongo "a mano" porque las cabeceras de la base de datos no tienen acentos
                             if ($indice == 0) : ?>
                                 <script>
-                                    var datos = '<?= json_encode($datos); ?>'; //recojo los datos para enviarlos por AJAX. ¡comillas simples, con dobles NO FUNCIONA!
+                                    var datos = '<?= json_encode($datos); ?>'; //recojo los datos para enviarlos por AJAX. ¡Importante: usar comillas simples, con dobles NO FUNCIONA!
                                 </script>
                                 <th class="pt-4">
                                     <button class="btn pl-0 font-weight-bold ordenar" data-col="nombre_cientifico">
@@ -136,7 +142,7 @@ if ($error === "") {
                 </thead>
                 <tr>
                     <td>
-                        <a class="text-decoration-none text-white font-weight-bold" href="index.php?p=fp&f=<?= $fila['id_planta']; ?>">
+                        <a class="text-decoration-none text-white font-weight-bold font-italic" href="index.php?p=fp&f=<?= $fila['id_planta']; ?>">
                             <?= $fila['nombre_cientifico'] ?>
                         </a>
                     </td>
@@ -145,11 +151,11 @@ if ($error === "") {
                     <td><?= $fila['familia'] ?></td>
                     <td>
                         <a href="index.php?p=fp&f=<?= $fila['id_planta']; ?>">
-                            <img width="75px" src="<?php if ($fila['foto_general'] != "") :
-                                                        echo $fila['foto_general'];
-                                                    else :
-                                                        echo 'img/plantas/planta_default.jpg';
-                                                    endif; ?>" alt="miniatura de <?= $fila['nombre_cientifico'] ?>">
+                            <img class="miniatura fit-cover" src="<?php if ($fila['foto_general'] != "") :
+                                                                        echo $fila['foto_general'];
+                                                                    else :
+                                                                        echo 'img/plantas/default/planta-default.jpg';
+                                                                    endif; ?>" alt="miniatura de <?= $fila['nombre_cientifico'] ?>" loading="lazy">
                         </a>
                     </td>
                 </tr>
@@ -161,9 +167,22 @@ if ($error === "") {
                 </button>
             </div>
         </div> <!-- fin contenedor para tabla responsiva-->
+    <?php
+    //si aún no hay plantas en la base de datos
+    else :  ?>
+        <div class="form-group col-4 mt-5 mx-auto">
+            <div class="card">
+                <img class="card-img-top fit-cover" src="./img/web/sin-plantas.jpg" alt="Anímate a subir tus propias fotos a las galerías de las plantas" loading="lazy">
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>Aún no hay plantas guardadas.</p>
+                        <p>¿Te animas a subir una a nuestra base de datos? <a class="text-success text-decoration-none font-weight-bold" id="abrir" href="#">Regístrate</a> para colaborar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 <?php
-    } else {  //si aún no hay plantas en la base de datos
-        $msg = "NO HAY PLANTAS GUARDADAS";
-    }
-}
+        $msg = "Aún no hay plantas guardadas.";
+    endif;
+endif;
 ?>

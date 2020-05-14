@@ -1,11 +1,14 @@
 <?php
-//var_dump($_FILES); 
 //var_dump($_POST);
+/**
+ * Lógica de la página
+ */
+//var_dump($_FILES); 
+
 if (isset($_POST['modifPlanta'])) {
     $planta = new Planta();
     //$planta->edit($_POST);  //no puedo usar $_POST porque tb tengo datos en $_FILES
     $id_planta = $_POST['id_planta'];
-    $planta->get($id_planta); //de forma provisional, recupero los datos de la planta a modificar, para poder acceder a sus imágenes
     $nombre_cientifico = $_POST['nombre_cientifico'];
     $nombre_castellano = $_POST['nombre_castellano'];
     $nombre_valenciano = $_POST['nombre_valenciano'];
@@ -18,42 +21,38 @@ if (isset($_POST['modifPlanta'])) {
     $distribucion = $_POST['distribucion'];
     $cat_UICN = $_POST['cat_UICN'];
     $floracion = $_POST['floracion'];
-    $foto_general = subirImagen('foto_general');
-    if ($foto_general == "")
-        $foto_general = $planta->foto_general; //si no he actualizado la foto, tomo la que tenía guardada, para evitar borrarla durante la actualización
+    $aux = new Planta();
+    $aux->get($id_planta); //de forma provisional, recupero los datos de la planta a modificar, para poder acceder a sus imágenes. Lo hago en una planta "auxiliar" para no recuperar los datos en el objeto plnta que uso para modificar.
+    $foto_general = subirImagen('foto_general');  //como los archivos no se guardan en $_POST llamo a esta función, que sube la imagen al servidor y me devuelve su ruta
+    if ($foto_general == "") {
+        $foto_general = $aux->foto_general; //si no he actualizado la foto, tomo la que tenía guardada, para evitar borrarla de la BD durante la actualización pasando una cadena vacía como valor para el UPDATE
+    } else if ($aux->foto_general) {
+        unlink($aux->foto_general);  //si he actualizado la foto, borro la foto "vieja" del servidor para que no se acumulen fotos que no se usan
+    }
     $foto_flor = subirImagen('foto_flor');
-    if ($foto_flor == "")
-        $foto_flor = $planta->foto_flor;
+    if ($foto_flor == "") {
+        $foto_flor = $aux->foto_flor;
+    } else if ($aux->foto_flor) {
+        unlink($aux->foto_flor);
+    }
     $foto_hoja = subirImagen('foto_hoja');
-    if ($foto_hoja == "")
-        $foto_hoja = $planta->foto_hoja;
+    if ($foto_hoja == "") {
+        $foto_hoja = $aux->foto_hoja;
+    } else if ($aux->foto_hoja) {
+        unlink($aux->foto_hoja);
+    }
     $foto_fruto = subirImagen('foto_fruto');
-    if ($foto_fruto == "")
-        $foto_fruto = $planta->foto_fruto;
+    if ($foto_fruto == "") {
+        $foto_fruto = $aux->foto_fruto;
+    } else if ($aux->foto_fruto) {
+        unlink($aux->foto_fruto);
+    }
     $id_usuario = $_POST['id_usuario'];
     $datos = array('nombre_cientifico' => $nombre_cientifico, 'nombre_castellano' => $nombre_castellano, 'nombre_valenciano' => $nombre_valenciano, 'nombre_ingles' => $nombre_ingles, 'familia' => $familia, 'caracteres_diagnosticos' => $caracteres_diagnosticos, 'uso' => $uso, 'biotipo' => $biotipo, 'habitat' => $habitat, 'distribucion' => $distribucion, 'cat_UICN' => $cat_UICN, 'floracion' => $floracion, 'foto_general' => $foto_general, 'foto_flor' => $foto_flor, 'foto_hoja' => $foto_hoja, 'foto_fruto' => $foto_fruto, 'id_usuario' => $id_usuario, 'id_planta' => $id_planta);
     $planta->edit($datos);
     $error = $planta->error;
     $msg = $planta->msg;
 }
-/* 
-//antes de añadir el modal se borraba y se pedía la confirmación en esta misma página
-if (isset($_POST['borrSI'])) {
-    $planta = new PLanta();
-    $planta->delete($_POST['b']);
-    $error = $planta->error;
-    $msg = $planta->msg;
-} 
-
-if (isset($_GET['b'])) {
-    echo "<form action='index.php?p=gp' method='POST' >";
-    echo "Vas a borrar la planta " . $_GET['b'] . ". ¿Estás seguro?<br/><br/>";
-    echo "<input type='submit' value='SI' name='borrSI'/>";
-    echo "<input type='submit' value='NO' name='borrNO'/>";
-    echo "<input type='hidden' value='{$_GET['b']}' name='b'/>";
-    echo "</form>";
-}
-*/
 
 $nombre_cientifico = "";
 $nombre_castellano = "";
@@ -97,21 +96,22 @@ if (isset($_POST['altaPlanta'])) {
     $error = $planta->error;
     $msg = $planta->msg;
 }
-
 $planta = new Planta();
-#capturo el error que devuelve si no hay archivo de configuración. Si no hay error, continuo
-$error = $planta->error;
-if ($error === "") {
+
+if (isset($tipoS) && ($tipoS == "Administrador" || $tipoS == "Colaborador")) {
+    //solo puede acceder a la vista si es administrador o colaborador. Bloqueo accesos por url
+    /**
+     * Vista de la página
+     */
 ?>
-
-    <div class="container table-responsive">
-        <table class="table table-hover grad w-auto mx-auto my-5">
-
+    <div class="container table-responsive my-5">
+        <h1 class="text-success text-center my-3 dekko">Gestión de Plantas</h1>
+        <table class="table table-hover w-auto mx-auto grad">
             <?php
             //el contenedor y la tabla se dejan fuera del if..else, para poder contener el botón de crear plantas, que tiene que estar siempre disponibles
             $planta->get();  //este código es de los ejercicios modelo
             if (count($planta->get_rows()) > 0) : ?>
-                <thead>
+                <thead class="bg-success">
                     <tr>
                         <?php
                         $datos = $planta->get_rows();
@@ -128,7 +128,7 @@ if ($error === "") {
                                 //solo los usuarios de tipo Administrador pueden borrar plantas de la base de datos
                                 if ($tipoS == "Administrador") : ?>
                                     <th>borrar</th>
-                                <?php endif; ?>          
+                                <?php endif; ?>
                             <?php endif; ?>
                     </tr>
                 </thead>
@@ -169,5 +169,7 @@ if ($error === "") {
     </div>
 
 <?php
+} else {
+    echo "<script>window.location.replace(\"index.php?p=404\");</script>";
 }
 ?>

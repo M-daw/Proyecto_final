@@ -1,35 +1,76 @@
+/* ########### Reset de estilos ########### */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
+/* ########### Fuentes ########### */
+@font-face {
+	font-family: "Lobster 2";
+	src: url(../webfonts/LobsterTwo-Regular.ttf);
+}
+
+@font-face {
+	font-family: "Dekko";
+	src: url(../webfonts/Dekko-Regular.ttf);
+}
+
+@font-face {
+	font-family: "Macondo";
+	src: url(../webfonts/Macondo-Regular.ttf);
+}
+
+@font-face {
+	font-family: "Digital";
+	src: url(../webfonts/DS-DIGI.ttf);
+}
+
+.lobster {
+	font-family: "Lobster 2";
+}
+
+.dekko {
+	font-family: "Dekko";
+}
+
+.macondo {
+	font-family: "Macondo";
+}
+
+.digital {
+	font-family: "Digital";
+}
+
 /* ########### Estructura ########### */
 body {
-	background-image: url("../img/fondo_m.jpg");
+	background-image: url("../img/web/fondo-m.jpg");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	/*si tengo fixed no hace falta darle height para que se vea la imagen de background*/
+	/*si tengo background-attachment:fixed no hace falta darle height para que se vea la imagen de background*/
 	background-color: #cff0c2;
 	background-size: cover;
+	font-size: 0.9em !important;
 }
 
 main {
-	min-height: 78vh;
 	/*para que no quede el footer en medio de la pantalla cuando hay poco contenido*/
+	min-height: 70vh;
 }
 
-div.row>div:nth-child(3) {
-	margin-top: auto;
+/* ########### Ficha ########### */
+#ficha {
+	background-color: #cff0c2;
+	border-radius: 20px;
 }
 
 /* ########### Footer ########### */
-footer div:first-of-type {
-	background-image: url("../img/cenefa_footer.png");
+footer>div:first-of-type {
+	background-image: url("../img/web/cenefa-footer.png");
 	background-repeat: repeat-x;
 	background-position: bottom center;
-	height: 75px;
+	height: 50px;
 }
 
 .mensaje {
@@ -38,15 +79,37 @@ footer div:first-of-type {
 	z-index: 3;
 }
 
-/* ########### Tablas ########### */
-.bg-hoja{
-	background-color: #41966c;
-}
-.grad {
-	background-image: linear-gradient(135deg, #41966c, #cff0c2);
+/* ########### Estilos ########### */
+.text-hoja {
+	color: #41966c;
 }
 
-tr th:first-child,
+.bg-hoja {
+	background-color: #41966c;
+}
+
+.grad {
+	background-image: linear-gradient(135deg, #28a745, #cff0c2);
+}
+
+.sombra {
+	box-shadow: 10px 10px 5px green;
+}
+
+.sombra-doble {
+	box-shadow: 5px 5px 8px #41966c, 10px 10px 8px #cff0c2;
+}
+
+.sombra-texto {
+	text-shadow: 0px 0px 8px #cff0c2;
+}
+
+.rotado {
+	transform: rotate(-7deg);
+}
+
+/* ########### Tablas ########### */
+tr th:first-of-type,
 tr td:first-child {
 	padding-left: 2rem !important;
 }
@@ -56,41 +119,32 @@ tr td:last-child {
 	padding-right: 2rem !important;
 }
 
-#ficha {
-	border: 30px solid transparent;
-	border-top-width: 120px;
-	border-image: url("../img/fondo_ficha.png") 250 50 50 50 round;
-	background-image: url("../img/fondo_ficha.png");
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-attachment: fixed;
-	background-color: #cff0c2;
-	background-size: cover;
-	background-clip: padding-box;
-}
 
 /* ########### Estilo de las galerías ########### */
-#galeria-principal .swiper-slide,
-#galeria-usuario .swiper-slide,
-#galeria-usuario .swiper-slide img {
-	width: calc(60vw);
-	height: calc(60vw * 0.75);
+.fit-cover {
+	object-fit: cover;
+}
+
+.recortada-1 {
+	height: 50vw;
+}
+
+.recortada-2 {
+	width: calc(80vw) !important;
+	height: calc(80vw * 0.75) !important;
+}
+
+.miniatura {
+	width: 75px;
+	height: 50px;
 }
 
 #galeria-planta {
-	width: 100%;
 	height: 300px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 #galeria-usuario {
 	background-color: #cff0c2;
-}
-
-.swiper-slide {
-	background-size: cover;
-	background-position: center;
 }
 
 .swiper-pagination-bullet-active {
@@ -103,12 +157,12 @@ tr td:last-child {
 }
 
 .gallery-thumbs {
-	height: auto;
 	padding: 10px 0;
 }
 
 .gallery-thumbs .swiper-slide {
 	opacity: 0.4;
+	height: 75px !important;
 }
 
 .gallery-thumbs .swiper-slide-thumb-active {
@@ -119,16 +173,14 @@ tr td:last-child {
 .cont-pajaros {
 	min-height: 35rem;
 	/*background-color: rgb(207, 240, 194, 1);  /*si uso jumbotron, poner !important, porque lleva bg por defecto*/
-	/*background-image: linear-gradient(to bottom,  rgba(174, 248, 144, 0.2) 0%,rgba(13, 255, 106, 0.4) 100%), url('../img/sierra_de_crevillente.jpg');
-	/*background-image: linear-gradient(to bottom,  rgba(255,168,76,0.6) 0%,rgba(255,123,13,0.6) 100%), url('https://images.unsplash.com/photo-1446824505046-e43605ffb17f');*/
-	background-image: url('../img/Sierra_Crevillent.jpg');
+	background-image: linear-gradient(to bottom, rgba(174, 248, 144, 0.2) 0%, rgba(13, 255, 106, 0.4) 100%), url('../img/web/Sierra-Crevillent.jpg');
 	background-blend-mode: multiply;
 	background-size: cover;
 	background-position: center center;
 }
 
 .pajaro {
-	background-image: url('../img/anim_pajaro.svg');
+	background-image: url('../img/web/anim-pajaro.svg');
 	background-size: auto 100%;
 	width: 88px;
 	height: 125px;
@@ -153,16 +205,11 @@ tr td:last-child {
 	animation-delay: -0.25s;
 }
 
-.pajaro--cuatro {
-	animation-duration: 1.1s;
-	animation-delay: -0.5s;
-}
-
 .pajaro-cont {
 	position: absolute;
 	top: 20%;
 	left: -10%;
-	transform: scale(0) translateX(-10vw);
+	transform: scale(0);
 	will-change: transform;
 	animation-name: volar-desplazamiento;
 	animation-timing-function: linear;
@@ -171,22 +218,17 @@ tr td:last-child {
 
 .pajaro-cont--uno {
 	animation-duration: 7.5s;
-	animation-delay: 0;
+	animation-delay: 0.5;
 }
 
 .pajaro-cont--dos {
 	animation-duration: 8s;
-	animation-delay: 0.5s;
+	animation-delay: 2.5s;
 }
 
 .pajaro-cont--tres {
 	animation-duration: 7.3s;
-	animation-delay: 3.5s;
-}
-
-.pajaro-cont--cuatro {
-	animation-duration: 8s;
-	animation-delay: 4s;
+	animation-delay: 5.5s;
 }
 
 @keyframes vuelo {
@@ -197,115 +239,164 @@ tr td:last-child {
 
 @keyframes volar-desplazamiento {
 
-	/*0% {
-		transform: scale(0.3) translateX(-10vw);
-	}
-
-	10% {
-		transform: translateY(2vh) translateX(10vw) scale(0.4);
-	}
-
-	20% {
-		transform: translateY(0vh) translateX(30vw) scale(0.5);
-	}
-
-	30% {
-		transform: translateY(4vh) translateX(50vw) scale(0.6);
-	}
-
-	40% {
-		transform: translateY(2vh) translateX(70vw) scale(0.6);
-	}
-
-	50% {
-		transform: translateY(0vh) translateX(90vw) scale(0.6);
-	}
-
-	60% {
-		transform: translateY(0vh) translateX(110vw) scale(0.6);
-	}
-
-	100% {
-		transform: translateY(0vh) translateX(110vw) scale(0.6);
-	}*/
 	0% {
 		transform: scale(0.3) translateX(0vw);
 	}
 
-	15% {
+	17% {
 		transform: translateY(2vh) translateX(16vw) scale(0.4);
 	}
 
-	30% {
+	33% {
 		transform: translateY(0vh) translateX(32vw) scale(0.5);
 	}
 
-	45% {
-		transform: translateY(4vh) translateX(48vw) scale(0.6);
+	50% {
+		transform: translateY(4vh) translateX(47vw) scale(0.6);
 	}
 
-	60% {
-		transform: translateY(2vh) translateX(64vw) scale(0.6);
+	66% {
+		transform: translateY(2vh) translateX(63vw) scale(0.6);
 	}
 
-	75% {
-		transform: translateY(0vh) translateX(80vw) scale(0.6);
-	}
-
-	90% {
-		transform: translateY(0vh) translateX(96vw) scale(0.6);
+	83% {
+		transform: translateY(0vh) translateX(79vw) scale(0.6);
 	}
 
 	100% {
-		transform: translateY(0vh) translateX(105vw) scale(0.6);
+		transform: translateY(0vh) translateX(95vw) scale(0.6);
 	}
 
 }
-
 
 /* ########### Cambios responsivos ########### */
 /*tomo breakpoints de Bootstrap. */
 @media screen and (min-width: 768px) {
 
 	/* md, tablets */
+	/* ########### Estructura ########### */
 	body {
-		background-image: url("../img/fondo_d.jpg");
+		background-image: url("../img/web/fondo-d.jpg");
+		font-size: 1em !important;
 	}
 
-	/*div.row.portada>div:nth-child(3) {
-		margin-top: auto;
-	}*/
+	.display-4 {
+		/*A  las clases para los display headings no se les pueden aplicar los prefijos
+		con los breakpoints. La modifico para que en pantallas mayores que móvil sea equivalente a un display-3 */
+		font-size: 4.5rem !important;
+	}
 
-	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide,
-	#galeria-usuario .swiper-slide img {
-		width: calc(40vw);
-		height: calc(40vw * 0.75);
+	/* ########### Ficha ########### */
+	#ficha {
+		border: 30px solid transparent;
+		border-top-width: 120px;
+		border-image: url("../img/web/marco-ficha.png") 250 50 50 50 round;
+		background-image: url("../img/web/fondo-ficha.jpg");
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-attachment: scroll;
+		background-color: #cff0c2;
+		background-size: cover;
+		background-clip: padding-box;
+	}
+
+	/* ########### Estilo de las galerías ########### */
+	.recortada-1 {
+		height: 30vw;
+	}
+
+	.recortada-2 {
+		width: calc(40vw) !important;
+		height: calc(40vw * 0.75) !important;
+	}
+
+	/* ########### Animación pájaros en el Home ########### */
+	.pajaro-cont--uno {
+		animation-duration: 7.5s;
+		animation-delay: 0;
+	}
+
+	.pajaro-cont--dos {
+		animation-duration: 8s;
+		animation-delay: 0.5s;
+	}
+
+	.pajaro-cont--tres {
+		animation-duration: 7.3s;
+		animation-delay: 3.5s;
+	}
+
+	@keyframes volar-desplazamiento {
+		0% {
+			transform: scale(0.3) translateX(0vw);
+		}
+
+		15% {
+			transform: translateY(2vh) translateX(16vw) scale(0.4);
+		}
+
+		30% {
+			transform: translateY(0vh) translateX(32vw) scale(0.5);
+		}
+
+		45% {
+			transform: translateY(4vh) translateX(48vw) scale(0.6);
+		}
+
+		60% {
+			transform: translateY(2vh) translateX(64vw) scale(0.6);
+		}
+
+		75% {
+			transform: translateY(0vh) translateX(80vw) scale(0.6);
+		}
+
+		90% {
+			transform: translateY(0vh) translateX(96vw) scale(0.6);
+		}
+
+		100% {
+			transform: translateY(0vh) translateX(105vw) scale(0.6);
+		}
 	}
 }
 
 @media screen and (min-width: 992px) {
 
 	/*lg, desktop*/
+	/* ########### Estructura ########### */
+	/*A partir de pantallas lg los bloques de texto se situa uno sobre otro y necesita este margen para no solapar*/
 	div.row.portada>div:nth-child(3) {
-		margin-top: -225px;
+		margin-top: -200px;
 	}
 
-	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide,
-	#galeria-usuario .swiper-slide img {
-		width: calc(30vw);
-		height: calc(30vw * 0.75);
+	/* ########### Estilo de las galerías ########### */
+	.recortada-1 {
+		height: 20vw;
 	}
+
+	.recortada-2 {
+		width: calc(30vw) !important;
+		height: calc(30vw * 0.75) !important;
+	}
+
 }
 
 @media screen and (min-width: 1200px) {
 
 	/*xl, pantallas muy grandes*/
-	#galeria-principal .swiper-slide,
-	#galeria-usuario .swiper-slide,
-	#galeria-usuario .swiper-slide img {
-		width: calc(20vw);
-		height: calc(20vw * 0.75);
+	/* ########### Estructura ########### */
+	div.row.portada>div:nth-child(3) {
+		margin-top: -225px;
+	}
+
+	/* ########### Estilo de las galerías ########### */
+	.recortada-1 {
+		max-height: 250px;
+	}
+
+	.recortada-2 {
+		width: calc(20vw) !important;
+		height: calc(20vw * 0.75) !important;
 	}
 }

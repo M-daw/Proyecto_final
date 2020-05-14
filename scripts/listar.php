@@ -1,8 +1,8 @@
 <?php
-$raiz = realpath($_SERVER["DOCUMENT_ROOT"]);
-require $raiz . "/Proyecto/lib/functions.php";
-require $raiz . "/Proyecto/lib/varios.php";
-require $raiz . "/Proyecto/clases/pdf/fpdf.php";
+
+require "../lib/functions.php";
+require "../lib/varios.php";
+require "../lib/clases/pdf/fpdf.php";
 
 class PDF extends FPDF {
     // Cabecera de página
@@ -83,9 +83,9 @@ if (count($planta->get_rows()) > 0) {
 
         $desplazamientoX += $w;
         if ($fila['foto_general'] != "") :
-            $pdf->Image($raiz."/Proyecto".$fila['foto_general'], $desplazamientoX, $y +1 , $wi=20);
+            $pdf->Image("../".$fila['foto_general'], $desplazamientoX, $y +1 , $wi=20);
         else :
-            $pdf->Image($raiz."/Proyecto/img/plantas/planta_default.jpg", $desplazamientoX, $y + 1, $wi=20);
+            $pdf->Image("../img/plantas/default/planta-default.jpg", $desplazamientoX, $y + 1, $wi=20);
         endif;
         $yAux = $pdf->y  + $wi*0.5;
         if ($yAux > $desplazamientoY) {
